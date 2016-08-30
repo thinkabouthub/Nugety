@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Xunit;
-using NugetyCore;
 using System.IO;
 using System.Reflection;
 using NugetyCore.Tests.Common;
 
-namespace NugetyCore.Tests.Tests
+namespace NugetyCore.Tests
 {
     public class GetModuleWithDependencies
     {
