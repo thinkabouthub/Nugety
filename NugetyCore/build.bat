@@ -28,6 +28,8 @@ REM Unit tests
 REM call dotnet test NugetyCore\src\NugetyCore.Tests --configuration %config%
 REM if not "%errorlevel%"=="0" goto failure
 
+rem test push update.
+
 :success
 exit 0
 
