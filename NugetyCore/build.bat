@@ -25,8 +25,8 @@ REM call dotnet build --configuration %config%
 if not "%errorlevel%"=="0" goto failure
 
 REM Unit tests
-call dotnet test NugetyCore\src\NugetyCore.Tests --configuration %config%
-if not "%errorlevel%"=="0" goto failure
+REM call dotnet test NugetyCore\src\NugetyCore.Tests --configuration %config%
+REM if not "%errorlevel%"=="0" goto failure
 
 :success
 exit 0
