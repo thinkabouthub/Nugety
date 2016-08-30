@@ -13,10 +13,17 @@
       "imports": "dnxcore50"
     }
   },
+  "packOptions": {
+    "owners": [ "ThinkAbout" ],
+    "summary": "NugetyCore package summary",
+    "releaseNotes": "Initial Release",
+    "requireLicenseAcceptance": false,
+    "tags": ["nugety", "c#", "dotnetcore"]
+  },
 
   "scripts": {
     "postcompile": [
-      "dotnet pack --no-build --configuration %compile:Configuration%"
+      "dotnet pack --no-build --configuration %compile:Configuration% "
     ]
   }
 }
