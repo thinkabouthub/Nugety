@@ -12,5 +12,8 @@
 
   "frameworks": {
     "net461": {}
+  },
+  "scripts": {
+    "postcompile": "xcopy /f /r /y /i /s \"%project:Directory%\\Modules\" \"%compile:RuntimeOutputDir%\\Modules\""
   }
 }
