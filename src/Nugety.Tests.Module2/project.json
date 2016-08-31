@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Autofac": "4.0.0",
+    "Nugety.AspNetCore": "1.0.0-*",
+    "Nugety.Tests.Common": "1.0.0-*",
+    "Nugety.Tests.Dependency2": "1.0.0-*"
+  },
+
+  "frameworks": {
+    "net462": {}
+  },
+
+  "buildOptions": {
+    "keyFile": "../ModuleCatalogKey.snk"
+  }
+}
+

@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Autofac": "4.0.0",
+    "Microsoft.Extensions.DependencyModel": "1.0.0"
+  },
+
+  "frameworks": {
+    "net462": {}
+  },
+  "buildOptions": {
+    "keyFile": "../ModuleCatalogKey.snk",
+    "xmlDoc": true,
+    "nowarn": [ "1591" ]
+  }
+}

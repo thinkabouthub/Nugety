@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0-0",
+
+  "dependencies": {
+  },
+
+  "frameworks": {
+    "net462": {}
+  },
+
+  "buildOptions": {
+    "keyFile": "../ModuleCatalogKey.snk"
+  }
+}

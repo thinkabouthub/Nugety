@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Autofac": "4.0.0",
+    "Microsoft.Extensions.DependencyModel": "1.0.0",
+    "Nugety": "1.0.0-*"
+  },
+  "frameworks": {
+    "net462": {}
+  },
+  "buildOptions": {
+    "keyFile": "../ModuleCatalogKey.snk",
+    "xmlDoc": true,
+    "nowarn": [ "1591" ]
+  },
+  "packOptions": {
+    "owners": [ "ThinkAbout" ],
+    "summary": "Nugety.Nuget package summary",
+    "releaseNotes": "Initial Release",
+    "requireLicenseAcceptance": false,
+    "tags": [ "nugety", "c#", "dotnetcore" ]
+  },
+
+  "scripts": {
+    "postcompile": [
+      "dotnet pack --no-build --configuration %compile:Configuration% "
+    ]
+  }
+}
