@@ -7,7 +7,7 @@
   },
 
   "frameworks": {
-    "net462": {}
+    "net461": {}
   },
   "buildOptions": {
     "keyFile": "../ModuleCatalogKey.snk",
