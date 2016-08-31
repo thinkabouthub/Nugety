@@ -9,7 +9,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety", "src\Nugety\Nugety
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Nuget.Tests", "src\Nugety.Nuget.Tests\Nugety.Nuget.Tests.xproj", "{62685049-EB7C-4D39-B3AD-A9205EEAAC28}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.AspNetCore", "src\Nugety.AspNetCore\Nugety.AspNetCore.xproj", "{15AF23D4-17D2-44FC-BD5A-5BF86F0ACB50}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.AspNet", "src\Nugety.AspNet\Nugety.AspNet.xproj", "{15AF23D4-17D2-44FC-BD5A-5BF86F0ACB50}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Nuget", "src\Nugety.Nuget\Nugety.Nuget.xproj", "{C26E091B-1397-406E-9758-4BD4CAB0C2A3}"
 EndProject
@@ -104,67 +104,5 @@ Global
 		{BAE3E1C8-8DB2-47E2-A209-F64B6E1FE212} = {1CEC9084-5544-4D0E-B925-DCE323344CCF}
 		{6A8D59DA-5B59-471D-88F6-3022389530C0} = {1CEC9084-5544-4D0E-B925-DCE323344CCF}
 		{119F1B09-1A3A-44E0-9511-6971B1E9E2E4} = {1CEC9084-5544-4D0E-B925-DCE323344CCF}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 10
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://thinkabout.visualstudio.com/
-		SccProjectUniqueName0 = Nugety\\Nugety.xproj
-		SccProjectName0 = Nugety
-		SccAuxPath0 = https://thinkabout.visualstudio.com
-		SccLocalPath0 = Nugety
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName1 = Nugety.Nuget.Tests\\Nugety.Nuget.Tests.xproj
-		SccProjectTopLevelParentUniqueName1 = Nugety.sln
-		SccProjectName1 = Nugety.Nuget.Tests
-		SccAuxPath1 = https://thinkabout.visualstudio.com
-		SccLocalPath1 = Nugety.Nuget.Tests
-		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName2 = Nugety.AspNetCore\\Nugety.AspNetCore.xproj
-		SccProjectName2 = Nugety.AspNetCore
-		SccAuxPath2 = https://thinkabout.visualstudio.com
-		SccLocalPath2 = Nugety.AspNetCore
-		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName3 = Nugety.Nuget\\Nugety.Nuget.xproj
-		SccProjectName3 = Nugety.Nuget
-		SccAuxPath3 = https://thinkabout.visualstudio.com
-		SccLocalPath3 = Nugety.Nuget
-		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName4 = Nugety.Tests\\Nugety.Tests.xproj
-		SccProjectTopLevelParentUniqueName4 = Nugety.sln
-		SccProjectName4 = Nugety.Tests
-		SccAuxPath4 = https://thinkabout.visualstudio.com
-		SccLocalPath4 = Nugety.Tests
-		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName5 = Nugety.Tests.Common\\Nugety.Tests.Common.xproj
-		SccProjectTopLevelParentUniqueName5 = Nugety.sln
-		SccProjectName5 = Nugety.Tests.Common
-		SccAuxPath5 = https://thinkabout.visualstudio.com
-		SccLocalPath5 = Nugety.Tests.Common
-		SccProvider5 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName6 = Nugety.Tests.Dependency1\\Nugety.Tests.Dependency1.xproj
-		SccProjectTopLevelParentUniqueName6 = Nugety.sln
-		SccProjectName6 = Nugety.Tests.Dependency1
-		SccAuxPath6 = https://thinkabout.visualstudio.com
-		SccLocalPath6 = Nugety.Tests.Dependency1
-		SccProvider6 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName7 = Nugety.Tests.Module1\\Nugety.Tests.Module1.xproj
-		SccProjectTopLevelParentUniqueName7 = Nugety.sln
-		SccProjectName7 = Nugety.Tests.Module1
-		SccAuxPath7 = https://thinkabout.visualstudio.com
-		SccLocalPath7 = Nugety.Tests.Module1
-		SccProvider7 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName8 = Nugety.Tests.Module2\\Nugety.Tests.Module2.xproj
-		SccProjectTopLevelParentUniqueName8 = Nugety.sln
-		SccProjectName8 = Nugety.Tests.Module2
-		SccAuxPath8 = https://thinkabout.visualstudio.com
-		SccLocalPath8 = Nugety.Tests.Module2
-		SccProvider8 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName9 = Nugety.Tests.Module3\\Nugety.Tests.Module3.xproj
-		SccProjectTopLevelParentUniqueName9 = Nugety.sln
-		SccProjectName9 = Nugety.Tests.Module3
-		SccAuxPath9 = https://thinkabout.visualstudio.com
-		SccLocalPath9 = Nugety.Tests.Module3
-		SccProvider9 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 	EndGlobalSection
 EndGlobal

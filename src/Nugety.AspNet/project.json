@@ -17,10 +17,10 @@
   },
   "packOptions": {
     "owners": [ "ThinkAbout" ],
-    "summary": "Nugety.AspNetCore package summary",
+    "summary": "Nugety.AspNet package summary",
     "releaseNotes": "Initial Release",
     "requireLicenseAcceptance": false,
-    "tags": [ "nugety", "c#", "dotnetcore" ]
+    "tags": [ "nugety", "c#", "aspnet" ]
   },
 
   "scripts": {
