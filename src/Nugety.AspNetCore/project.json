@@ -14,5 +14,18 @@
     "keyFile": "../ModuleCatalogKey.snk",
     "xmlDoc": true,
     "nowarn": [ "1591" ]
+  },
+  "packOptions": {
+    "owners": [ "ThinkAbout" ],
+    "summary": "Nugety.AspNetCore package summary",
+    "releaseNotes": "Initial Release",
+    "requireLicenseAcceptance": false,
+    "tags": [ "nugety", "c#", "dotnetcore" ]
+  },
+
+  "scripts": {
+    "postcompile": [
+      "dotnet pack --no-build --configuration %compile:Configuration% "
+    ]
   }
 }

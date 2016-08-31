@@ -42,9 +42,6 @@ namespace Nugety.Tests
         [Fact]
         public void Given_TwoModules_When_HasSameDependencyDifferentVersion_Then_BothVersionsLoad()
         {
-            Assembly.LoadFrom(@"D:\workspace\catalog\src\Nugety.Tests\bin\Debug\net462\win7-x64\Modules\Module3 with dependency3 v0\Nugety.Tests.Dependency3.dll");
-            Assembly.LoadFrom(@"D:\workspace\catalog\src\Nugety.Tests\bin\Debug\net462\win7-x64\Modules\Module4 with dependency3 v1\Nugety.Tests.Dependency3.dll");
-
             var modules = new NugetyCatalog()
                 .FromDirectory()
                 .GetModules<IModuleInitializer>("Module3 with dependency3 v0", "Module4 with dependency3 v1");
