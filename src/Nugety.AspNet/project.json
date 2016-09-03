@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "dependencies": {
@@ -8,19 +8,19 @@
 
 
   "frameworks": {
-    "net461": {}
+    "net462": {}
   },
   "buildOptions": {
-    "keyFile": "../ModuleCatalogKey.snk",
+    "keyFile": "../Nugety.snk",
     "xmlDoc": true,
     "nowarn": [ "1591" ]
   },
   "packOptions": {
-    "owners": [ "ThinkAbout" ],
+    "owners": ["ThinkAbout"],
     "summary": "Nugety.AspNet package summary",
     "releaseNotes": "Initial Release",
     "requireLicenseAcceptance": false,
-    "tags": [ "nugety", "c#", "aspnet" ]
+    "tags": ["nugety", "c#", "aspnet"]
   },
 
   "scripts": {

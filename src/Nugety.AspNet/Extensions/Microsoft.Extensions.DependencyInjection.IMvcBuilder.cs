@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.IO;
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace Nugety
 {
@@ -17,9 +9,7 @@ namespace Nugety
         public static IMvcBuilder InitialiseModules(this IMvcBuilder builder, IEnumerable<IModuleInitializer> modules)
         {
             foreach (var m in modules)
-            {
                 m.ConfigureServices(builder.Services, builder);
-            }
             return builder;
         }
 
@@ -35,10 +25,7 @@ namespace Nugety
 
         public static IMvcBuilder AddApplicationPartByType(this IMvcBuilder builder, params Type[] types)
         {
-            builder.ConfigureApplicationPartManager(manager =>
-            {
-                manager.ApplicationParts.Add(new TypesPart(types));
-            });
+            builder.ConfigureApplicationPartManager(manager => { manager.ApplicationParts.Add(new TypesPart(types)); });
             return builder;
         }
     }

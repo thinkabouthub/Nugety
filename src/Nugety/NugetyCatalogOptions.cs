@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Nugety
+﻿namespace Nugety
 {
     public class NugetyCatalogOptions
     {
-        private NugetyCatalog _catalog;
+        private readonly NugetyCatalog _catalog;
+
         public NugetyCatalogOptions(NugetyCatalog catalog)
         {
             _catalog = catalog;
@@ -20,13 +16,13 @@ namespace Nugety
 
         public virtual NugetyCatalog SetFileNameFilterPattern(string pattern)
         {
-            this.FileNameFilterPattern = pattern;
+            FileNameFilterPattern = pattern;
             return _catalog;
         }
 
         public virtual NugetyCatalog SetModuleNameFilterPattern(string pattern)
         {
-            this.ModuleNameFilterPattern = pattern;
+            ModuleNameFilterPattern = pattern;
             return _catalog;
         }
     }

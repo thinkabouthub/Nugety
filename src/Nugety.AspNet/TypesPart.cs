@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.IO;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace Nugety

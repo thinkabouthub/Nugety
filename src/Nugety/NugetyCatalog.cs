@@ -1,49 +1,41 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Reflection;
 
 namespace Nugety
 {
     public class NugetyCatalog : INugetyCatalogProvider
     {
-        public static INugetyCatalogProvider Catalog { get; set; }
-
         private static readonly object _lock = new object();
 
         private NugetyCatalogOptions options;
 
-        public NugetyCatalogOptions Options { get
-            {
-                return options ?? (options =  new NugetyCatalogOptions(this));
-            }
-        }
-
-        public AppDomain Domain { get; private set; }
-
         public NugetyCatalog(AppDomain domain)
         {
-            this.Domain = domain;
-            this.Domain.AssemblyResolve += Domain_AssemblyResolve;
+            Domain = domain;
+            Domain.AssemblyResolve += Domain_AssemblyResolve;
         }
 
         public NugetyCatalog()
         {
-            this.Domain = AppDomain.CurrentDomain;
-            this.Domain.AssemblyResolve += Domain_AssemblyResolve;
+            Domain = AppDomain.CurrentDomain;
+            Domain.AssemblyResolve += Domain_AssemblyResolve;
         }
 
-        protected virtual Assembly Domain_AssemblyResolve(object sender, ResolveEventArgs args)
+        public static INugetyCatalogProvider Catalog { get; set; }
+
+        public AppDomain Domain { get; }
+
+        public NugetyCatalogOptions Options
         {
-            return null;
+            get { return options ?? (options = new NugetyCatalogOptions(this)); }
         }
 
         public virtual T Load<T>(ModuleInfo module)
         {
-            var instance = (T)module.AssemblyInfo.Assembly.CreateInstance(module.ModuleInitialiser.FullName);
+            var instance = (T) module.AssemblyInfo.Assembly.CreateInstance(module.ModuleInitialiser.FullName);
             return instance;
         }
 
@@ -51,47 +43,46 @@ namespace Nugety
         {
             var instances = new Collection<T>();
             foreach (var module in modules)
-            {
-                instances.Add(this.Load<T>(module));
-            }
+                instances.Add(Load<T>(module));
             return instances;
         }
 
         public virtual Type GetModuleInitializer<T>(Assembly assembly)
         {
-            return this.GetModuleInitializer(assembly, typeof(T));
+            return GetModuleInitializer(assembly, typeof(T));
         }
 
         public virtual Type GetModuleInitializer(Assembly assembly, Type initialiser)
         {
-            var type = assembly.GetTypes().FirstOrDefault(t => !t.GetTypeInfo().IsInterface && initialiser.IsAssignableFrom(t));
+            var type =
+                assembly.GetTypes().FirstOrDefault(t => !t.GetTypeInfo().IsInterface && initialiser.IsAssignableFrom(t));
             if (type != null)
-            {
                 return type;
-            }
             type = assembly.ExportedTypes.FirstOrDefault(t => t == initialiser);
             if (type != null)
-            {
                 return type;
-            }
             return null;
         }
 
-        public virtual IEnumerable<ModuleInfo<T>> GetMany<T>(params Func<INugetyCatalogProvider, IEnumerable<ModuleInfo<T>>>[] loaders)
+        public virtual IEnumerable<ModuleInfo<T>> GetMany<T>(
+            params Func<INugetyCatalogProvider, IEnumerable<ModuleInfo<T>>>[] loaders)
         {
             var loader = new DirectoryModuleProvider(this);
             var loadModules = new List<ModuleInfo<T>>();
 
             foreach (var l in loaders)
-            {
                 loadModules.AddRange(l.Invoke(this));
-            }
             return loadModules.AsEnumerable();
         }
 
         public virtual IDirectoryModuleProvider FromDirectory(string location = "Modules")
         {
-           return new DirectoryModuleProvider(this).Options.SetLocation(location);
+            return new DirectoryModuleProvider(this).Options.SetLocation(location);
+        }
+
+        protected virtual Assembly Domain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            return null;
         }
     }
 }

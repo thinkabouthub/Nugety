@@ -2,29 +2,29 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Autofac": "4.0.0",
+    "Autofac": "4.1.0",
     "Microsoft.Extensions.DependencyModel": "1.0.0"
   },
 
   "frameworks": {
-    "net461": {}
+    "net462": {}
   },
   "buildOptions": {
-    "keyFile": "../ModuleCatalogKey.snk",
+    "keyFile": "../Nugety.snk",
     "xmlDoc": true,
     "nowarn": [ "1591" ]
   },
   "packOptions": {
-    "owners": [ "ThinkAbout" ],
+    "owners": ["ThinkAbout"],
     "summary": "Nugety package summary",
     "releaseNotes": "Initial Release",
     "requireLicenseAcceptance": false,
-    "tags": [ "nugety", "c#" ]
+    "tags": ["nugety", "c#"]
   },
 
   "scripts": {
     "postcompile": [
-      "dotnet pack --no-build --configuration %compile:Configuration% "
+      "dotnet pack --no-build --configuration %compile:Configuration%"
     ]
   }
 }

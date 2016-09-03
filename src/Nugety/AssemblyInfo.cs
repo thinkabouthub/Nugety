@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection;
-
+﻿using System.Reflection;
 
 namespace Nugety
 {
@@ -12,8 +6,8 @@ namespace Nugety
     {
         public AssemblyInfo(Assembly assembly)
         {
-            this.Assembly = assembly;
-            this.Location = this.Assembly.Location;
+            Assembly = assembly;
+            Location = Assembly.Location;
         }
 
         public Assembly Assembly { get; set; }
