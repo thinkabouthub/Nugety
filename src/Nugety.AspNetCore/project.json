@@ -17,7 +17,7 @@
   },
   "packOptions": {
     "owners": ["ThinkAbout"],
-    "summary": "Nugety.AspNet package summary",
+    "summary": "Nugety.AspNetCore package summary",
     "releaseNotes": "Initial Release",
     "requireLicenseAcceptance": false,
     "tags": ["nugety", "c#", "aspnet"]
