@@ -72,7 +72,6 @@ namespace Nugety
 
         public virtual IEnumerable<DirectoryInfo> GetModuleDirectories(params string[] name)
         {
-            Console.WriteLine(Directory.GetCurrentDirectory());
             var list = new Collection<DirectoryInfo>();
             if (!Directory.Exists(Options.Location))
                 throw new DirectoryNotFoundException(Options.Location);
