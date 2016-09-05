@@ -8,7 +8,7 @@
 
 
   "frameworks": {
-    "net462": {}
+    "net461": {}
   },
   "buildOptions": {
     "keyFile": "../Nugety.snk",
