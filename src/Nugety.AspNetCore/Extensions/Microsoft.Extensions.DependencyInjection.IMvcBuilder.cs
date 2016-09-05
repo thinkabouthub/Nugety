@@ -39,7 +39,7 @@ namespace Nugety
             foreach (var m in modules)
             {
                 var initializer = m.Catalog.Load<IModuleInitializer>(m);
-                initializer.ConfigureServices(builder.Services, builder);
+                if (initializer != null) initializer.ConfigureServices(builder.Services, builder);
             }
             return builder;
         }
