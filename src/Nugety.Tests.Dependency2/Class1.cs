@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Nugety.Tests.Dependency2
+﻿namespace Nugety.Tests.Dependency2
 {
     public class Class1
     {
-        public Class1()
-        {
-        }
     }
 }

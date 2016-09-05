@@ -13,7 +13,8 @@ namespace Nugety
             return builder;
         }
 
-        public static IMvcBuilder InitialiseModules(this IMvcBuilder builder, string fileNameFilterPattern, params string[] moduleName)
+        public static IMvcBuilder InitialiseModules(this IMvcBuilder builder, string fileNameFilterPattern,
+            params string[] moduleName)
         {
             var modules = new NugetyCatalog()
                 .Options.SetFileNameFilterPattern(fileNameFilterPattern)

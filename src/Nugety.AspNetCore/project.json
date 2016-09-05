@@ -13,14 +13,14 @@
   "buildOptions": {
     "keyFile": "../Nugety.snk",
     "xmlDoc": true,
-    "nowarn": [ "1591" ]
+    "nowarn": ["1591"]
   },
   "packOptions": {
     "owners": ["ThinkAbout"],
     "summary": "Nugety.AspNetCore package summary",
     "releaseNotes": "Initial Release",
     "requireLicenseAcceptance": false,
-    "tags": ["nugety", "c#", "aspnet"]
+    "tags": ["nugety", "nugetcore.aspnetcore", "nugetyaspnetcore", "c#", "dotnetcore"]
   },
 
   "scripts": {

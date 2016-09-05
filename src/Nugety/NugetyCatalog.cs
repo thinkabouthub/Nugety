@@ -33,28 +33,14 @@ namespace Nugety
             get { return options ?? (options = new NugetyCatalogOptions(this)); }
         }
 
-        public event EventHandler<ModuleIntanceEventArgs> ModuleLoaded;
-
-        public event EventHandler<CancelModuleEventArgs> ModuleLoading;
-
-        protected void OnModuleLoaded(ModuleInfo module, object value)
-        {
-            this.ModuleLoaded?.Invoke(this, new ModuleIntanceEventArgs(module, value));
-        }
-
-        protected void OnModuleLoading(CancelModuleEventArgs args)
-        {
-            this.ModuleLoading?.Invoke(this, args);
-        }
-
         public virtual T Load<T>(ModuleInfo module)
         {
             var args = new CancelModuleEventArgs(module);
-            this.OnModuleLoading(args);
+            OnModuleLoading(args);
             if (!args.Cancel)
             {
-                var instance = (T)module.AssemblyInfo.Assembly.CreateInstance(module.ModuleInitialiser.FullName);
-                this.OnModuleLoaded(module, instance);
+                var instance = (T) module.AssemblyInfo.Assembly.CreateInstance(module.ModuleInitialiser.FullName);
+                OnModuleLoaded(module, instance);
                 return instance;
             }
             return default(T);
@@ -102,6 +88,20 @@ namespace Nugety
         public virtual IDirectoryModuleProvider FromDirectory(string location = "Modules")
         {
             return new DirectoryModuleProvider(this).Options.SetLocation(location);
+        }
+
+        public event EventHandler<ModuleIntanceEventArgs> ModuleLoaded;
+
+        public event EventHandler<CancelModuleEventArgs> ModuleLoading;
+
+        protected void OnModuleLoaded(ModuleInfo module, object value)
+        {
+            ModuleLoaded?.Invoke(this, new ModuleIntanceEventArgs(module, value));
+        }
+
+        protected void OnModuleLoading(CancelModuleEventArgs args)
+        {
+            ModuleLoading?.Invoke(this, args);
         }
 
         protected virtual Assembly Domain_AssemblyResolve(object sender, ResolveEventArgs args)

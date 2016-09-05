@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nugety
 {
@@ -10,8 +7,8 @@ namespace Nugety
     {
         public ModuleIntanceEventArgs(ModuleInfo module, object value)
         {
-            this.Module = module;
-            this.Value = value;
+            Module = module;
+            Value = value;
         }
 
         public ModuleInfo Module { get; set; }
@@ -23,7 +20,7 @@ namespace Nugety
     {
         public CancelModuleEventArgs(ModuleInfo module)
         {
-            this.Module = module;
+            Module = module;
         }
 
         public ModuleInfo Module { get; set; }

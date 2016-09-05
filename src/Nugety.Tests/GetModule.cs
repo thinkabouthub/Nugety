@@ -1,31 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
-using Nugety;
-using System.IO;
 
 namespace Nugety.Tests
 {
     public class GetModule
     {
         [Fact]
-        public void Given_ModuleNameFilterPattern_When_Valid_Then_ModuleReturned()
+        public void Given_FileNameFilterPattern_When_Invalid_Then_NoModuleReturned()
         {
             var modules = new NugetyCatalog()
-                .Options.SetModuleNameFilterPattern("Module1")
-                .FromDirectory()
-                .GetModules<IModuleInitializer>();
-
-            Assert.True(modules.Any(m => m.Name == "Module1"));
-        }
-
-        [Fact]
-        public void Given_ModuleNameFilterPattern_When_Invalid_Then_NoModuleReturned()
-        {
-            var modules = new NugetyCatalog()
-                .Options.SetModuleNameFilterPattern("Module2")
+                .Options.SetFileNameFilterPattern("*Module2")
                 .FromDirectory()
                 .GetModules<IModuleInitializer>();
 
@@ -44,14 +29,44 @@ namespace Nugety.Tests
         }
 
         [Fact]
-        public void Given_FileNameFilterPattern_When_Invalid_Then_NoModuleReturned()
+        public void Given_GetManyModules_When_Valid_Then_ModulesReturned()
+        {
+            var modules = new NugetyCatalog().GetMany
+            (
+                c => c.FromDirectory().GetModules<IModuleInitializer>("Module1"),
+                c => c.FromDirectory().GetModules<IModuleInitializer>("Module3 with dependency3 v0")
+            );
+
+            Assert.True(modules.Any(m => m.Name == "Module1"));
+            Assert.True(modules.Any(m => m.Name == "Module3 with dependency3 v0"));
+        }
+
+        [Fact]
+        public void Given_Module_When_Valid_Then_PropertiesPopulated()
         {
             var modules = new NugetyCatalog()
-                .Options.SetFileNameFilterPattern("*Module2")
                 .FromDirectory()
-                .GetModules<IModuleInitializer>();
+                .GetModules<IModuleInitializer>("Module1");
 
-            Assert.True(!modules.Any(m => m.Name == "Module2"));
+            var module = modules.FirstOrDefault(m => m.Name == "Module1");
+            Assert.True(module != null);
+            Assert.NotNull(module.Catalog);
+            Assert.NotNull(module.ModuleInitialiser);
+            Assert.True(!string.IsNullOrEmpty(module.Location));
+            Assert.NotNull(module.AssemblyInfo);
+            Assert.NotNull(module.AssemblyInfo.Assembly);
+            Assert.True(!string.IsNullOrEmpty(module.AssemblyInfo.Location));
+        }
+
+        [Fact]
+        public void Given_ModuleLocation_When_Invalid_Then_ThrowsDirectoryNotFoundException()
+        {
+            Assert.Throws<DirectoryNotFoundException>(() =>
+            {
+                var modules = new NugetyCatalog()
+                    .FromDirectory("InvalidDirectory")
+                    .GetModules<IModuleInitializer>();
+            });
         }
 
         [Fact]
@@ -64,27 +79,6 @@ namespace Nugety.Tests
             Assert.True(modules.Any(m => m.Name == "Module1"));
             Assert.True(modules.Any(m => m.Name == "Module3 with dependency3 v0"));
             Assert.True(modules.Any(m => m.Name == "Module2 without dependency2"));
-        }
-
-        [Fact]
-        public void Given_ModuleLocation_When_Invalid_Then_ThrowsDirectoryNotFoundException()
-        {
-            Assert.Throws<DirectoryNotFoundException>(() =>
-            {
-                var modules = new NugetyCatalog()
-                   .FromDirectory("InvalidDirectory")
-                   .GetModules<IModuleInitializer>();
-            });
-        }
-
-        [Fact]
-        public void Given_ModuleName_When_Valid_Then_ModuleReturned()
-        {
-            var modules = new NugetyCatalog()
-                .FromDirectory()
-                .GetModules<IModuleInitializer>("Module1");
-
-            Assert.True(modules.Any(m => m.Name == "Module1"));
         }
 
         [Fact]
@@ -112,33 +106,35 @@ namespace Nugety.Tests
         }
 
         [Fact]
-        public void Given_GetManyModules_When_Valid_Then_ModulesReturned()
-        {
-            var modules = new NugetyCatalog().GetMany
-                (
-                    c => c.FromDirectory().GetModules<IModuleInitializer>("Module1"),
-                    c => c.FromDirectory().GetModules<IModuleInitializer>("Module3 with dependency3 v0")
-                );
-
-            Assert.True(modules.Any(m => m.Name == "Module1"));
-            Assert.True(modules.Any(m => m.Name == "Module3 with dependency3 v0"));
-        }
-
-        [Fact]
-        public void Given_Module_When_Valid_Then_PropertiesPopulated()
+        public void Given_ModuleName_When_Valid_Then_ModuleReturned()
         {
             var modules = new NugetyCatalog()
                 .FromDirectory()
                 .GetModules<IModuleInitializer>("Module1");
 
-            var module = modules.FirstOrDefault(m => m.Name == "Module1");
-            Assert.True(module != null);
-            Assert.NotNull(module.Catalog);
-            Assert.NotNull(module.ModuleInitialiser);
-            Assert.True(!string.IsNullOrEmpty(module.Location));
-            Assert.NotNull(module.AssemblyInfo);
-            Assert.NotNull(module.AssemblyInfo.Assembly);
-            Assert.True(!string.IsNullOrEmpty(module.AssemblyInfo.Location));
+            Assert.True(modules.Any(m => m.Name == "Module1"));
+        }
+
+        [Fact]
+        public void Given_ModuleNameFilterPattern_When_Invalid_Then_NoModuleReturned()
+        {
+            var modules = new NugetyCatalog()
+                .Options.SetModuleNameFilterPattern("Module2")
+                .FromDirectory()
+                .GetModules<IModuleInitializer>();
+
+            Assert.True(!modules.Any(m => m.Name == "Module2"));
+        }
+
+        [Fact]
+        public void Given_ModuleNameFilterPattern_When_Valid_Then_ModuleReturned()
+        {
+            var modules = new NugetyCatalog()
+                .Options.SetModuleNameFilterPattern("Module1")
+                .FromDirectory()
+                .GetModules<IModuleInitializer>();
+
+            Assert.True(modules.Any(m => m.Name == "Module1"));
         }
     }
 }
