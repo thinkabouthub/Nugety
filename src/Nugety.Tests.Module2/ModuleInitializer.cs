@@ -1,28 +1,20 @@
 ﻿using System;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Serialization;
-using Nugety;
-using Autofac;
 using Nugety.Tests.Common;
+using Nugety.Tests.Dependency2;
 
 namespace Nugety.Tests.Module2
 {
-    public class ModuleInitializer : Autofac.Module, IModuleInitializer, IDependencyVersion
+    public class ModuleInitializer : Module, IModuleInitializer, IDependencyVersion
     {
-        public ModuleInitializer()
+        public Type GetDependencyType()
         {
-        }
-
-        protected override void Load(ContainerBuilder builder)
-        {
+            var test = new Class1();
+            return test.GetType();
         }
 
         public bool ConfigureServices(IServiceCollection services, IMvcBuilder builder, IServiceProvider provider = null)
@@ -35,10 +27,8 @@ namespace Nugety.Tests.Module2
             return false;
         }
 
-        public Type GetDependencyType()
+        protected override void Load(ContainerBuilder builder)
         {
-            var test = new Dependency2.Class1();
-            return test.GetType();
         }
     }
 }

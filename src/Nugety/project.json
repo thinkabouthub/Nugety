@@ -12,14 +12,14 @@
   "buildOptions": {
     "keyFile": "../Nugety.snk",
     "xmlDoc": true,
-    "nowarn": [ "1591" ]
+    "nowarn": ["1591"]
   },
   "packOptions": {
     "owners": ["ThinkAbout"],
     "summary": "Nugety package summary",
     "releaseNotes": "Initial Release",
     "requireLicenseAcceptance": false,
-    "tags": ["nugety", "c#"]
+    "tags": ["nugety", "nugetcore", "c#", "dotnetcore"]
   },
 
   "scripts": {

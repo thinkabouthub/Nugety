@@ -35,15 +35,25 @@ namespace Nugety
 
         public virtual T Load<T>(ModuleInfo module)
         {
-            var instance = (T) module.AssemblyInfo.Assembly.CreateInstance(module.ModuleInitialiser.FullName);
-            return instance;
+            var args = new CancelModuleEventArgs(module);
+            OnModuleLoading(args);
+            if (!args.Cancel)
+            {
+                var instance = (T) module.AssemblyInfo.Assembly.CreateInstance(module.ModuleInitialiser.FullName);
+                OnModuleLoaded(module, instance);
+                return instance;
+            }
+            return default(T);
         }
 
         public virtual IEnumerable<T> Load<T>(IEnumerable<ModuleInfo> modules)
         {
             var instances = new Collection<T>();
             foreach (var module in modules)
-                instances.Add(Load<T>(module));
+            {
+                var i = Load<T>(module);
+                if (i != null) instances.Add(i);
+            }
             return instances;
         }
 
@@ -78,6 +88,20 @@ namespace Nugety
         public virtual IDirectoryModuleProvider FromDirectory(string location = "Modules")
         {
             return new DirectoryModuleProvider(this).Options.SetLocation(location);
+        }
+
+        public event EventHandler<ModuleIntanceEventArgs> ModuleLoaded;
+
+        public event EventHandler<CancelModuleEventArgs> ModuleLoading;
+
+        protected void OnModuleLoaded(ModuleInfo module, object value)
+        {
+            ModuleLoaded?.Invoke(this, new ModuleIntanceEventArgs(module, value));
+        }
+
+        protected void OnModuleLoading(CancelModuleEventArgs args)
+        {
+            ModuleLoading?.Invoke(this, args);
         }
 
         protected virtual Assembly Domain_AssemblyResolve(object sender, ResolveEventArgs args)

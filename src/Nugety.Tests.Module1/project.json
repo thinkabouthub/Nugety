@@ -1,8 +1,8 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Autofac": "4.0.0",
+    "Autofac": "4.1.0",
     "Nugety.AspNetCore": "1.0.0-*"
   },
 
