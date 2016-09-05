@@ -13,6 +13,27 @@ namespace Nugety
             return builder;
         }
 
+        public static IMvcBuilder InitialiseModules(this IMvcBuilder builder, string fileNameFilterPattern, params string[] moduleName)
+        {
+            var modules = new NugetyCatalog()
+                .Options.SetFileNameFilterPattern(fileNameFilterPattern)
+                .FromDirectory()
+                .GetModules<IModuleInitializer>(moduleName).Load();
+            builder.InitialiseModules(modules);
+
+            return builder;
+        }
+
+        public static IMvcBuilder InitialiseModules(this IMvcBuilder builder, params string[] moduleName)
+        {
+            var modules = new NugetyCatalog()
+                .FromDirectory()
+                .GetModules<IModuleInitializer>(moduleName).Load();
+            builder.InitialiseModules(modules);
+
+            return builder;
+        }
+
         public static IMvcBuilder InitialiseModules(this IMvcBuilder builder, IEnumerable<ModuleInfo> modules)
         {
             foreach (var m in modules)
