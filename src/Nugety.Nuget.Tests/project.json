@@ -6,7 +6,6 @@
     "Nugety": "1.0.0-*",
     "Nugety.Nuget": "1.0.0-*",
     "Nugety.AspNetCore": "1.0.0-*",
-    "Nugety": "1.0.0-*",
     "dotnet-test-xunit": "2.2.0-preview2-build1029"
   },
   "frameworks": {
