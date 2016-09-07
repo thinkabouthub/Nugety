@@ -13,7 +13,7 @@ In comparison to monolithic compositition of components and assemblies which is 
 
 ## Get Packages
 
-You can get Nugety by [grabbing the latest NuGet packages](https://github.com/autofac/Autofac/wiki/Nu-Get-Packages). If you're feeling adventurous, [continuous integration builds are on MyGet](https://www.myget.org/gallery/nugety).
+You can get Nugety by [grabbing the latest NuGet packages](https://www.myget.org/feed/Packages/nugety). If you're feeling adventurous, [continuous integration builds are on MyGet](https://www.myget.org/gallery/nugety).
 
 [Release notes are available on the wiki](https://github.com/thinkabouthub/nugety/wiki).
 
@@ -74,8 +74,7 @@ var modules = new NugetyCatalog()
 
 **There is a growing number of [application integration libraries] that make using Nugety with your application a snap.**
 
-- [Nugety](https://github.com/thinkabouthub/nugety) - Core Nugety API (this repo).
-- [Nugety.AspNetCore](https://github.com/thinkabouthub/nugety) - ASP.NET integration for Nugety (this repo).
-- [Nugety.Autofac](https://github.com/thinkabouthub/nugety) - ASP.NET integration for Nugety (this repo).
-- [Nugety](https://github.com/thinkabouthub/nugety) - Support for Nugety as Autofac modules (this repo).
-- [Nugety.Nuget](https://github.com/thinkabouthub/nugety) - Support for Nuget as Nugety source (this repo).
+- [Nugety](https://www.myget.org/feed/nugety/package/nuget/Nugety) - Core Nugety API (this repo).
+- [Nugety.AspNetCore](https://www.myget.org/feed/nugety/package/nuget/Nugety.AspNetCore) - ASP.NET integration for Nugety (this repo).
+- [Nugety.Autofac](https://github.com/thinkabouthub/nugety) - Support for Nugety as Autofac modules (this repo).
+- [Nugety.Nuget](https://www.myget.org/feed/nugety/package/nuget/Nugety.Nuget) - Support for Nuget as Nugety source (this repo).
