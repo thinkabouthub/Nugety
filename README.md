@@ -39,7 +39,7 @@ var modules = new NugetyCatalog()
 
 ```C#
 var modules = new NugetyCatalog()
-        .Options.SetFileNameFilterPattern("*module*.dll")
+	.Options.SetFileNameFilterPattern("*module*.dll")
 	.FromDirectory()
 	.GetModules<IModuleInitializer>().Load();
 ```
@@ -48,7 +48,7 @@ var modules = new NugetyCatalog()
 
 ```C#
 var modules = new NugetyCatalog()
-        .Options.SetModuleNameFilterPattern("*Development*")
+	.Options.SetModuleNameFilterPattern("*Development*")
 	.FromDirectory()
 	.GetModules<IModuleInitializer>().Load();
 ```
