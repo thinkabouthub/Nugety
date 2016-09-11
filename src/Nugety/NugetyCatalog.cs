@@ -35,7 +35,7 @@ namespace Nugety
 
         public virtual T Load<T>(ModuleInfo module)
         {
-            var args = new CancelModuleEventArgs(module);
+            var args = new ModuleCancelEventArgs(module);
             OnModuleLoading(args);
             if (!args.Cancel)
             {
@@ -92,14 +92,14 @@ namespace Nugety
 
         public event EventHandler<ModuleIntanceEventArgs> ModuleLoaded;
 
-        public event EventHandler<CancelModuleEventArgs> ModuleLoading;
+        public event EventHandler<ModuleCancelEventArgs> ModuleLoading;
 
         protected void OnModuleLoaded(ModuleInfo module, object value)
         {
             ModuleLoaded?.Invoke(this, new ModuleIntanceEventArgs(module, value));
         }
 
-        protected void OnModuleLoading(CancelModuleEventArgs args)
+        protected void OnModuleLoading(ModuleCancelEventArgs args)
         {
             ModuleLoading?.Invoke(this, args);
         }

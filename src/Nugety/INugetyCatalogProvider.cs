@@ -6,7 +6,10 @@ namespace Nugety
 {
     public interface INugetyCatalogProvider
     {
+        event EventHandler<ModuleCancelEventArgs> ModuleLoading;
+
         NugetyCatalogOptions Options { get; }
+
         IEnumerable<ModuleInfo<T>> GetMany<T>(params Func<INugetyCatalogProvider, IEnumerable<ModuleInfo<T>>>[] loaders);
 
         T Load<T>(ModuleInfo module);

@@ -1,8 +1,8 @@
-{
+﻿{
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Microsoft.Extensions.DependencyModel": "1.0.0",
+    "Autofac": "4.1.0",
     "Nugety": "1.0.0-*"
   },
   "frameworks": {
@@ -11,14 +11,14 @@
   "buildOptions": {
     "keyFile": "../Nugety.snk",
     "xmlDoc": true,
-    "nowarn": ["1591"]
+    "nowarn": [ "1591" ]
   },
   "packOptions": {
-    "owners": ["ThinkAbout"],
-    "summary": "Nugety.Nuget package summary",
+    "owners": [ "ThinkAbout" ],
+    "summary": "Nugety.Autofac package summary",
     "releaseNotes": "Initial Release",
     "requireLicenseAcceptance": false,
-    "tags": ["nugety", "nugety.nuget", "nugetynuget", "c#", "dotnetcore"]
+    "tags": [ "nugety", "nugety.autofac", "nugetyautofac", "c#", "dotnetcore" ]
   },
 
   "scripts": {

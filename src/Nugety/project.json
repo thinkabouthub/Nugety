@@ -2,7 +2,6 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Autofac": "4.1.0",
     "Microsoft.Extensions.DependencyModel": "1.0.0"
   },
 
