@@ -2,7 +2,6 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Microsoft.AspNetCore.Mvc": "1.0.0",
     "Nugety": "1.0.0-*"
   },
 
@@ -10,8 +9,7 @@
   "frameworks": {
     "net461": {}
   },
-  "buildOptions": {
-    "keyFile": "../Nugety.snk",
+  "buildOptions": {    "keyFile": "../../Nugety.snk",
     "xmlDoc": true,
     "nowarn": ["1591"]
   },

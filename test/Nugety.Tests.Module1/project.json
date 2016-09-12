@@ -11,6 +11,6 @@
   },
 
   "buildOptions": {
-    "keyFile": "../Nugety.snk"
+    "keyFile": "../../Nugety.snk"
   }
 }

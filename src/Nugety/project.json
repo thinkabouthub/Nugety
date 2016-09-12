@@ -9,7 +9,7 @@
     "net461": {}
   },
   "buildOptions": {
-    "keyFile": "../Nugety.snk",
+    "keyFile": "../../Nugety.snk",
     "xmlDoc": true,
     "nowarn": ["1591"]
   },
