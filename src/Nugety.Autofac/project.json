@@ -18,6 +18,7 @@
     "summary": "Nugety.Autofac package summary",
     "releaseNotes": "Initial Release",
     "requireLicenseAcceptance": false,
+    "iconUrl": "https://raw.githubusercontent.com/thinkabouthub/NugetyCore/master/nugety_icon.png",
     "tags": [ "nugety", "nugety.autofac", "nugetyautofac", "c#", "dotnetcore" ]
   },
 
