@@ -6,7 +6,7 @@ namespace Nugety.Tests
 {
     public class GetModule
     {
-        [Fact]
+        [Fact] 
         public void Given_FileNameFilterPattern_When_Invalid_Then_NoModuleReturned()
         {
             var modules = new NugetyCatalog()
