@@ -1,9 +1,9 @@
 {
-  "version": "1.0.0-*",
+  "version": "1.0.1-*",
 
   "dependencies": {
     "Microsoft.AspNetCore.Mvc": "1.0.0",
-    "Nugety": "1.0.0-*"
+    "Nugety": "1.0.1-*"
   },
 
 
