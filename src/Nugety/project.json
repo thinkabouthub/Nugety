@@ -14,11 +14,12 @@
     "nowarn": ["1591"]
   },
   "packOptions": {
-    "owners": ["ThinkAbout"],
+    "owners": [ "ThinkAbout" ],
     "summary": "Nugety package summary",
     "releaseNotes": "Initial Release",
     "requireLicenseAcceptance": false,
-    "tags": ["nugety", "nugetcore", "c#", "dotnetcore"]
+    "iconUrl": "https://raw.githubusercontent.com/thinkabouthub/NugetyCore/master/nugety_icon.png",
+    "tags": [ "nugety", "nugetcore", "c#", "dotnetcore" ]
   },
 
   "scripts": {
