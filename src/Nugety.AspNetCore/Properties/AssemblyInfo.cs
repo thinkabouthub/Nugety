@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("e5Workflow")]
-[assembly: AssemblyProduct("Nugety.AspNet")]
+[assembly: AssemblyProduct("Nugety.AspNetCore")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
