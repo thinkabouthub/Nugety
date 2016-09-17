@@ -10,7 +10,7 @@ namespace Nugety.Tests
         public void Given_FileNameFilterPattern_When_Invalid_Then_NoModuleReturned()
         {
             var modules = new NugetyCatalog()
-                .Options.SetFileNameFilterPattern("*Module2")
+                .Options.SetModuleFileNameFilter("*Module2")
                 .FromDirectory()
                 .GetModules<IModuleInitializer>();
 
@@ -21,7 +21,7 @@ namespace Nugety.Tests
         public void Given_FileNameFilterPattern_When_Valid_Then_ModuleReturned()
         {
             var modules = new NugetyCatalog()
-                .Options.SetFileNameFilterPattern("*Module1.dll")
+                .Options.SetModuleFileNameFilter("*Module1.dll")
                 .FromDirectory()
                 .GetModules<IModuleInitializer>();
 
@@ -119,7 +119,7 @@ namespace Nugety.Tests
         public void Given_ModuleNameFilterPattern_When_Invalid_Then_NoModuleReturned()
         {
             var modules = new NugetyCatalog()
-                .Options.SetModuleNameFilterPattern("Module2")
+                .Options.SetModuleNameFilter("Module2")
                 .FromDirectory()
                 .GetModules<IModuleInitializer>();
 
@@ -130,7 +130,7 @@ namespace Nugety.Tests
         public void Given_ModuleNameFilterPattern_When_Valid_Then_ModuleReturned()
         {
             var modules = new NugetyCatalog()
-                .Options.SetModuleNameFilterPattern("Module1")
+                .Options.SetModuleNameFilter("Module1")
                 .FromDirectory()
                 .GetModules<IModuleInitializer>();
 
