@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 
 namespace Nugety
 {
@@ -7,5 +8,7 @@ namespace Nugety
         INugetyCatalogProvider Catalog { get; }
 
         IEnumerable<ModuleInfo<T>> GetModules<T>(params string[] name);
+
+        Assembly LoadAssembly(string location);
     }
 }

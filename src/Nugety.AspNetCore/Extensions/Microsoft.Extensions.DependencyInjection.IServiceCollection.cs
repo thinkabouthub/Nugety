@@ -8,8 +8,7 @@ namespace Nugety
         public static IServiceCollection InitialiseModules(this IServiceCollection services,
             IEnumerable<IModuleInitializer> modules)
         {
-            foreach (var m in modules)
-                m.ConfigureServices(services);
+            foreach (var m in modules) m.ConfigureServices(services);
             return services;
         }
     }

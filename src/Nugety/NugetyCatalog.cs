@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -8,25 +9,53 @@ namespace Nugety
 {
     public class NugetyCatalog : INugetyCatalogProvider
     {
-        private static readonly object _lock = new object();
-
         private NugetyCatalogOptions options;
+        private readonly Collection<ModuleInfo> _modules = new Collection<ModuleInfo>();
+        public static readonly object _lock = new object();
 
         public NugetyCatalog(AppDomain domain)
         {
-            Domain = domain;
-            Domain.AssemblyResolve += Domain_AssemblyResolve;
+            this.Domain = domain;
+            this.Domain.AssemblyResolve += this.Domain_AssemblyResolve;
         }
 
         public NugetyCatalog()
         {
-            Domain = AppDomain.CurrentDomain;
-            Domain.AssemblyResolve += Domain_AssemblyResolve;
+            this.Domain = AppDomain.CurrentDomain;
+            this.Domain.AssemblyResolve += this.Domain_AssemblyResolve;
         }
 
         public static INugetyCatalogProvider Catalog { get; set; }
 
         public AppDomain Domain { get; }
+
+        private readonly Collection<AssemblyName> assemblyResolveFailed = new Collection<AssemblyName>();
+
+        public IEnumerable<AssemblyName> AssemblyResolveFailed
+        {
+            get { return this.assemblyResolveFailed; }
+        }
+
+        public IEnumerable<ModuleInfo> Modules
+        {
+            get { return this._modules; }
+        }
+
+        public void AddModule(ModuleInfo module)
+        {
+            lock (_lock)
+            {
+                this._modules.Add(module);
+            }
+        }
+
+        public void RemoveModule(ModuleInfo module)
+        {
+            lock (_lock)
+            {
+                this._modules.Remove(module);
+            }
+        }
 
         public NugetyCatalogOptions Options
         {
@@ -65,28 +94,38 @@ namespace Nugety
         public virtual Type GetModuleInitializer(Assembly assembly, Type initialiser)
         {
             var type = assembly.GetTypes().FirstOrDefault(t => !t.GetTypeInfo().IsInterface && initialiser.IsAssignableFrom(t));
-            if (type != null)
-                return type;
+            if (type != null) return type;
             type = assembly.ExportedTypes.FirstOrDefault(t => t == initialiser);
-            if (type != null)
-                return type;
+            if (type != null) return type;
             return null;
         }
 
         public virtual IEnumerable<ModuleInfo<T>> GetMany<T>(
             params Func<INugetyCatalogProvider, IEnumerable<ModuleInfo<T>>>[] loaders)
         {
-            var loader = new DirectoryModuleProvider(this);
             var loadModules = new List<ModuleInfo<T>>();
 
-            foreach (var l in loaders)
-                loadModules.AddRange(l.Invoke(this));
+            foreach (var l in loaders) loadModules.AddRange(l.Invoke(this));
             return loadModules.AsEnumerable();
         }
 
-        public virtual IDirectoryModuleProvider FromDirectory(string location = "Modules")
+        public virtual IDirectoryModuleProvider FromDirectory(string location = "Nugety")
         {
             return new DirectoryModuleProvider(this).Options.SetLocation(location);
+        }
+
+        public event EventHandler<AssemblyResolveCancelEventArgs> AssemblyResolve;
+
+        public event EventHandler<AssemblyResolvedEventArgs> AssemblyResolved;
+
+        protected void OnAssemblyResolved(AssemblyResolvedEventArgs args)
+        {
+            AssemblyResolved?.Invoke(this, args);
+        }
+
+        protected void OnAssemblyResolve(AssemblyResolveCancelEventArgs args)
+        {
+            AssemblyResolve?.Invoke(this, args);
         }
 
         public event EventHandler<ModuleIntanceEventArgs> ModuleLoaded;
@@ -105,6 +144,73 @@ namespace Nugety
 
         protected virtual Assembly Domain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
+            return this.ResolveAssembly(new AssemblyName(args.Name));
+        }
+
+        public virtual Assembly ResolveAssembly(AssemblyName name)
+        {
+            lock (_lock)
+            {
+                var cancelArgs = new AssemblyResolveCancelEventArgs(name);
+                this.OnAssemblyResolve(cancelArgs);
+                if (!cancelArgs.Cancel)
+                { 
+                    if (!this.AssemblyResolveFailed.Any(n => n.Name.Equals(name.Name)))
+                    { 
+                        var assemblies = this.Modules.SelectMany(m => m.Assemblies.Where(d => d.Assembly.GetName().Name.Equals(name.Name))).ToList();
+                        if (assemblies.Any()) return assemblies.First().Assembly;
+
+                        foreach (var module in this.Modules.Where(m => m.AllowAssemblyResolve))
+                        {
+                            var directory = new DirectoryInfo(Path.GetDirectoryName(module.Location));
+                            var filtered = directory.GetFileSystemInfos(string.Concat(name.Name, ".dll"), SearchOption.AllDirectories);
+                            var assemblyInfo = this.ResolveAssembly(module, name, filtered);
+
+                            if (assemblyInfo == null)
+                            {
+                                var files = directory.GetFileSystemInfos("*.dll", SearchOption.AllDirectories).Where(f => !filtered.Any(t => t.Name.Equals(f.Name))).ToArray();
+                                assemblyInfo = this.ResolveAssembly(module, name, files);
+                            }
+
+                            if (assemblyInfo != null)
+                            {
+                                module.AddAssembly(assemblyInfo);
+                                var args = new AssemblyResolvedEventArgs(name, module, assemblyInfo);
+                                this.OnAssemblyResolved(args);
+                                return assemblyInfo.Assembly;
+                            }
+                        }
+                        this.assemblyResolveFailed.Add(name);
+                    }
+                    return null;
+                }
+                return cancelArgs.Assembly;
+            }
+        }
+
+        protected virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name, FileSystemInfo[] files)
+        {
+            foreach (var file in files)
+            {
+                var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
+                var dependency = module.Assemblies.FirstOrDefault(d => d.Assembly.GetName().Equals(assemblyName));
+                if (dependency == null)
+                {
+                    try
+                    {
+                        var d = module.ModuleProvider.LoadAssembly(file.FullName);
+                        if (d != null) dependency = new AssemblyInfo(d);
+                    }
+                    catch
+                    {
+                        // Consume exception. Assembly failing to load should not fail all assemblies.
+                    }
+                }
+                if (dependency != null && dependency.Assembly.GetName().Name.Equals(name.Name))
+                {
+                    return dependency;
+                }
+            }
             return null;
         }
     }

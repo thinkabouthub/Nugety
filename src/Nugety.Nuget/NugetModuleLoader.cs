@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 
 namespace Nugety
 {
@@ -19,6 +20,11 @@ namespace Nugety
         }
 
         public virtual IEnumerable<ModuleInfo<T>> GetModules<T>(params string[] name)
+        {
+            return null;
+        }
+
+        public virtual Assembly LoadAssembly(string location)
         {
             return null;
         }

@@ -8,6 +8,10 @@ namespace Nugety
     {
         event EventHandler<ModuleCancelEventArgs> ModuleLoading;
 
+        event EventHandler<AssemblyResolveCancelEventArgs> AssemblyResolve;
+
+        event EventHandler<AssemblyResolvedEventArgs> AssemblyResolved;
+
         NugetyCatalogOptions Options { get; }
 
         IEnumerable<ModuleInfo<T>> GetMany<T>(params Func<INugetyCatalogProvider, IEnumerable<ModuleInfo<T>>>[] loaders);
@@ -16,10 +20,20 @@ namespace Nugety
 
         IEnumerable<T> Load<T>(IEnumerable<ModuleInfo> modules);
 
-        IDirectoryModuleProvider FromDirectory(string location = "Modules");
+        IDirectoryModuleProvider FromDirectory(string location = "Nugety");
 
         Type GetModuleInitializer<T>(Assembly assembly);
 
         Type GetModuleInitializer(Assembly assembly, Type initialiser);
+
+        IEnumerable<AssemblyName> AssemblyResolveFailed { get; }
+
+        IEnumerable<ModuleInfo> Modules { get; }
+
+        void AddModule(ModuleInfo module);
+
+        void RemoveModule(ModuleInfo module);
+
+        Assembly ResolveAssembly(AssemblyName name);
     }
 }

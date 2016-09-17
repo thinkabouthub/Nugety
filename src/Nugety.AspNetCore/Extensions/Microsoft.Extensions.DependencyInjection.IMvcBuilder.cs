@@ -8,8 +8,7 @@ namespace Nugety
     {
         public static IMvcBuilder InitialiseModules(this IMvcBuilder builder, IEnumerable<IModuleInitializer> modules)
         {
-            foreach (var m in modules)
-                m.ConfigureServices(builder.Services, builder);
+            foreach (var m in modules) m.ConfigureServices(builder.Services, builder);
             return builder;
         }
 
@@ -17,7 +16,7 @@ namespace Nugety
             params string[] moduleName)
         {
             var modules = new NugetyCatalog()
-                .Options.SetFileNameFilterPattern(fileNameFilterPattern)
+                .Options.SetModuleFileNameFilter(fileNameFilterPattern)
                 .FromDirectory()
                 .GetModules<IModuleInitializer>(moduleName).Load();
             builder.InitialiseModules(modules);

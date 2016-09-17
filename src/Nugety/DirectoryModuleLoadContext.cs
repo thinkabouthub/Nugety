@@ -47,7 +47,7 @@
 //            }
 //            if (assembly != null)
 //            {
-//                this.ModuleInfo.AddRelated(new AssemblyInfo(assembly));
+//                this.ModuleInfo.AddAssembly(new AssemblyInfo(assembly));
 //            }
 //            return assembly;
 //        }
@@ -55,7 +55,7 @@
 //        public virtual ModuleInfo<T> LoadUsingFileName<T>()
 //        {
 //            /// TODO: Can this search be optimised?
-//            foreach (var file in this.Directory.GetFileSystemInfos(!string.IsNullOrEmpty(this.Catalog.Options.FileNameFilterPattern) ? this.Catalog.Options.FileNameFilterPattern : "*.dll", SearchOption.AllDirectories))
+//            foreach (var file in this.Directory.GetFileSystemInfos(!string.IsNullOrEmpty(this.Catalog.Options.ModuleFileNameFilterPattern) ? this.Catalog.Options.ModuleFileNameFilterPattern : "*.dll", SearchOption.AllDirectories))
 //            {
 //                if (!DependencyContext.Default.RuntimeLibraries.Any(l => l.GetDefaultAssemblyNames(DependencyContext.Default).Any(a => a.Name == Path.GetFileNameWithoutExtension(file.Name))))
 //                {
