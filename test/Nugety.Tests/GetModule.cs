@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Reflection;
 using Xunit;
 
 namespace Nugety.Tests
@@ -135,6 +136,20 @@ namespace Nugety.Tests
                 .GetModules<IModuleInitializer>();
 
             Assert.True(modules.Any(m => m.Name == "Module1"));
+        }
+
+        [Fact]
+        public void Given_ModuleAssemblyLoad_When_FailToResolve_Then_ModuleDiscovered()
+        {
+            var catalog = new NugetyCatalog();
+            var modules = catalog
+                .Options.SetModuleFileNameFilter("*Module3*")
+                .FromDirectory()
+                .GetModules<IModuleInitializer>();
+
+            var assembly = Assembly.Load("Nugety.Tests.Module3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0b0afd28caef48a5");
+
+            Assert.True(!modules.Any(m => m.Name == "Module3"));
         }
     }
 }

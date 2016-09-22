@@ -19,10 +19,10 @@ namespace Nugety
             this.Domain.AssemblyResolve += this.Domain_AssemblyResolve;
         }
 
-        public NugetyCatalog()
+        public NugetyCatalog(bool subscribeToDomain = true)
         {
             this.Domain = AppDomain.CurrentDomain;
-            this.Domain.AssemblyResolve += this.Domain_AssemblyResolve;
+            if (subscribeToDomain) this.Domain.AssemblyResolve += this.Domain_AssemblyResolve;
         }
 
         public static INugetyCatalogProvider Catalog { get; set; }
