@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Nugety.Tests
 {
-    public class GetModule
+    public class GetModuleTests
     {
         [Fact] 
         public void Given_FileNameFilterPattern_When_Invalid_Then_NoModuleReturned()

@@ -7,7 +7,7 @@ namespace Nugety.Tests
     {
     }
 
-    public class LoadModule
+    public class LoadModuleTests
     {
         [Fact]
         public void Given_Initializer_When_Invalid_Then_NoInstancesReturned()
