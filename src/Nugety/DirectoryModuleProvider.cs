@@ -64,11 +64,6 @@ namespace Nugety
             return null;
         }
 
-        public virtual Assembly LoadAssembly(string location)
-        {
-            return Assembly.LoadFrom(location);
-        }
-
         public virtual IEnumerable<DirectoryInfo> GetModuleDirectories(params string[] name)
         {
             var list = new Collection<DirectoryInfo>();
@@ -93,6 +88,12 @@ namespace Nugety
                 foreach (var d in directories) list.Add(d);
             }
             return list;
+        }
+
+        public virtual AssemblyInfo LoadAssembly(ModuleInfo module, string location)
+        {
+            var assembly = Assembly.LoadFrom(location);
+            return assembly != null ? new AssemblyInfo(assembly) : null;
         }
 
         public virtual AssemblyInfo LoadAssembly(ModuleInfo module, AssemblyName name)

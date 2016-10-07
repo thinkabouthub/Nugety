@@ -9,7 +9,7 @@ namespace Nugety
 
         IEnumerable<ModuleInfo<T>> GetModules<T>(params string[] name);
 
-        Assembly LoadAssembly(string location);
+        AssemblyInfo LoadAssembly(ModuleInfo module, string location);
 
         AssemblyInfo LoadAssembly(ModuleInfo module, AssemblyName name);
     }
