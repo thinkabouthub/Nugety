@@ -28,5 +28,10 @@ namespace Nugety
         {
             return null;
         }
+
+        public virtual AssemblyInfo LoadAssembly(ModuleInfo module, AssemblyName name)
+        {
+            return null;
+        }
     }
 }

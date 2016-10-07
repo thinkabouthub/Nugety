@@ -162,19 +162,9 @@ namespace Nugety
 
                         foreach (var module in this.Modules.Where(m => m.AllowAssemblyResolve))
                         {
-                            var directory = new DirectoryInfo(Path.GetDirectoryName(module.Location));
-                            var filtered = directory.GetFileSystemInfos(string.Concat(name.Name, ".dll"), SearchOption.AllDirectories);
-                            var assemblyInfo = this.ResolveAssembly(module, name, filtered);
-
-                            if (assemblyInfo == null)
-                            {
-                                var files = directory.GetFileSystemInfos("*.dll", SearchOption.AllDirectories).Where(f => !filtered.Any(t => t.Name.Equals(f.Name))).ToArray();
-                                assemblyInfo = this.ResolveAssembly(module, name, files);
-                            }
-
+                            var assemblyInfo = module.ModuleProvider.LoadAssembly(module, name);
                             if (assemblyInfo != null)
                             {
-                                module.AddAssembly(assemblyInfo);
                                 var args = new AssemblyResolvedEventArgs(name, module, assemblyInfo);
                                 this.OnAssemblyResolved(args);
                                 return assemblyInfo.Assembly;
@@ -186,32 +176,6 @@ namespace Nugety
                 }
                 return cancelArgs.Assembly;
             }
-        }
-
-        protected virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name, FileSystemInfo[] files)
-        {
-            foreach (var file in files)
-            {
-                var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
-                var dependency = module.Assemblies.FirstOrDefault(d => d.Assembly.GetName().Equals(assemblyName));
-                if (dependency == null)
-                {
-                    try
-                    {
-                        var d = module.ModuleProvider.LoadAssembly(file.FullName);
-                        if (d != null) dependency = new AssemblyInfo(d);
-                    }
-                    catch
-                    {
-                        // Consume exception. Assembly failing to load should not fail all assemblies.
-                    }
-                }
-                if (dependency != null && dependency.Assembly.GetName().Name.Equals(name.Name))
-                {
-                    return dependency;
-                }
-            }
-            return null;
         }
     }
 }

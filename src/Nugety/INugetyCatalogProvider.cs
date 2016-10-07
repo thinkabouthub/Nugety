@@ -35,5 +35,7 @@ namespace Nugety
         void RemoveModule(ModuleInfo module);
 
         Assembly ResolveAssembly(AssemblyName name);
+
+        AppDomain Domain { get; }
     }
 }

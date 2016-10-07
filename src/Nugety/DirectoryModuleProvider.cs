@@ -43,7 +43,6 @@ namespace Nugety
         protected virtual ModuleInfo<T> LoadUsingFileName<T>(DirectoryInfo directory)
         {
             var names = AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetName());
-            /// TODO: Can this search be optimised?
             foreach (var file in directory.GetFileSystemInfos(!string.IsNullOrEmpty(Catalog.Options.ModuleFileNameFilterPattern) 
                 ? Catalog.Options.ModuleFileNameFilterPattern 
                 : "*.dll", 
@@ -90,8 +89,58 @@ namespace Nugety
                     if (namedDirectory != null) list.Add(namedDirectory);
                 }
             else
+            {
                 foreach (var d in directories) list.Add(d);
+            }
             return list;
+        }
+
+        public virtual AssemblyInfo LoadAssembly(ModuleInfo module, AssemblyName name)
+        {
+            var directory = new DirectoryInfo(Path.GetDirectoryName(module.Location));
+            var filtered = directory.GetFileSystemInfos(string.Concat(name.Name, ".dll"), SearchOption.AllDirectories);
+            var assemblyInfo = ResolveAssembly(module, name, filtered);
+
+            if (assemblyInfo == null)
+            {
+                var files = directory.GetFileSystemInfos("*.dll", SearchOption.AllDirectories).Where(f => !filtered.Any(t => t.Name.Equals(f.Name))).ToArray();
+                assemblyInfo = ResolveAssembly(module, name, files);
+            }
+            if (assemblyInfo != null)
+            {
+                module.AddAssembly(assemblyInfo);
+            }
+            return assemblyInfo;
+        }
+
+        protected virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name, FileSystemInfo[] files)
+        {
+            var assemblies = this.Catalog.Domain.GetAssemblies();
+            foreach (var file in files)
+            {
+                var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
+                var dependency = module.Assemblies.FirstOrDefault(d => d.Assembly.GetName().ToString().Equals(assemblyName.ToString()));
+                if (dependency == null)
+                {
+                    if (!assemblies.Any(c => c.GetName().ToString().Equals(assemblyName.ToString())))
+                    {
+                        try
+                        {
+                            var d = module.ModuleProvider.LoadAssembly(file.FullName);
+                            if (d != null) dependency = new AssemblyInfo(d);
+                        }
+                        catch
+                        {
+                            // Consume exception. Assembly failing to load should not fail all assemblies.
+                        }
+                    }
+                }
+                if (dependency != null && dependency.Assembly.GetName().ToString().Equals(name.ToString()))
+                {
+                    return dependency;
+                }
+            }
+            return null;
         }
     }
 }
