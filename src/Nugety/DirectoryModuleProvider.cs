@@ -50,9 +50,9 @@ namespace Nugety
             { 
                 if (!names.Any(n => n == AssemblyName.GetAssemblyName(file.FullName)))
                 {
-                    var assembly = LoadAssembly(file.FullName);
-                    var module = new ModuleInfo<T>(this, directory.Name, new AssemblyInfo(assembly));
-                    var type = this.Catalog.GetModuleInitializer<T>(assembly);
+                    var info = this.LoadAssembly(null, file.FullName);
+                    var module = new ModuleInfo<T>(this, directory.Name, new AssemblyInfo(info.Assembly));
+                    var type = this.Catalog.GetModuleInitializer<T>(info.Assembly);
                     if (type != null)
                     {
                         module.AddModuleInitialiser(type);
@@ -127,8 +127,8 @@ namespace Nugety
                     {
                         try
                         {
-                            var d = module.ModuleProvider.LoadAssembly(file.FullName);
-                            if (d != null) dependency = new AssemblyInfo(d);
+                            var info = module.ModuleProvider.LoadAssembly(module, file.FullName);
+                            if (info != null) dependency = new AssemblyInfo(info.Assembly);
                         }
                         catch
                         {

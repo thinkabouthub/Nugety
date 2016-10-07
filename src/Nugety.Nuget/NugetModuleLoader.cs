@@ -24,7 +24,7 @@ namespace Nugety
             return null;
         }
 
-        public virtual Assembly LoadAssembly(string location)
+        public virtual AssemblyInfo LoadAssembly(ModuleInfo module, string location)
         {
             return null;
         }
