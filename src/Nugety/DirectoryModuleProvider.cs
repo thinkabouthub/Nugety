@@ -54,11 +54,10 @@ namespace Nugety
                     var info = this.LoadAssembly(null, assemblyName);
                     if (info != null)
                     {
-                        var module = new ModuleInfo<T>(this, directory.Name, new AssemblyInfo(info.Assembly));
                         var type = this.Catalog.GetModuleInitializer<T>(info.Assembly);
                         if (type != null)
                         {
-                            module.AddModuleInitialiser(type);
+                            var module = new ModuleInfo<T>(this, directory.Name, new AssemblyInfo(info.Assembly), type);
                             this.Catalog.AddModule(module);
                             return module;
                         }

@@ -8,7 +8,7 @@ namespace Nugety
 {
     public class ModuleInfo<T> : ModuleInfo
     {
-        public ModuleInfo(IModuleProvider provider, string name, AssemblyInfo assemblyInfo, Type moduleInitialiser = null) : base(provider, name, assemblyInfo, moduleInitialiser)
+        public ModuleInfo(IModuleProvider provider, string name, AssemblyInfo assemblyInfo, Type moduleInitialiser) : base(provider, name, assemblyInfo, moduleInitialiser)
         {
         }
 
@@ -24,17 +24,17 @@ namespace Nugety
 
         private readonly Collection<AssemblyInfo> _assemblies = new Collection<AssemblyInfo>();
 
-        public ModuleInfo(IModuleProvider provider, string name, AssemblyInfo assemblyInfo, Type moduleInitialiser = null) : this(provider, assemblyInfo, moduleInitialiser)
+        public ModuleInfo(IModuleProvider provider, string name, AssemblyInfo assemblyInfo, Type moduleInitialiser) : this(provider, assemblyInfo, moduleInitialiser)
         {
             this.Name = name;
         }
 
-        public ModuleInfo(IModuleProvider provider, AssemblyInfo assembly, Type moduleInitialiser = null)
+        public ModuleInfo(IModuleProvider provider, AssemblyInfo assembly, Type moduleInitialiser)
         {
             this.ModuleProvider = provider;
             this.Name = assembly.Assembly.GetName().Name;
             this.AssemblyInfo = assembly;
-            this.ModuleInitialiser = moduleInitialiser;
+            this.AddModuleInitialiser(moduleInitialiser);
             this.AllowAssemblyResolve = true;
         }
 
@@ -63,9 +63,9 @@ namespace Nugety
             get { return this._assemblies; }
         }
 
-        public void AddModuleInitialiser(Type type)
+        protected virtual void AddModuleInitialiser(Type type)
         {
-            if (!AssemblyInfo.Assembly.ExportedTypes.Contains(type)) throw new InvalidDataException(string.Format("Type '{0}' does not exist in Assembly '{1}'", type, AssemblyInfo.Assembly));
+            //if (!AssemblyInfo.Assembly.ExportedTypes.Contains(type)) throw new InvalidDataException(string.Format("Type '{0}' does not exist in Assembly '{1}'", type, AssemblyInfo.Assembly));
             this.ModuleInitialiser = type;
             this.AddAssembly(new AssemblyInfo(type.Assembly));
         }
