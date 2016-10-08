@@ -47,10 +47,11 @@ namespace Nugety
                 ? Catalog.Options.ModuleFileNameFilterPattern 
                 : "*.dll", 
                 SearchOption.AllDirectories))
-            { 
-                if (!names.Any(n => n == AssemblyName.GetAssemblyName(file.FullName)))
+            {
+                var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
+                if (!names.Any(n => n.ToString().Equals(assemblyName.ToString())))
                 {
-                    var info = this.LoadAssembly(null, file.FullName);
+                    var info = this.LoadAssembly(null, assemblyName);
                     if (info != null)
                     {
                         var module = new ModuleInfo<T>(this, directory.Name, new AssemblyInfo(info.Assembly));
@@ -93,23 +94,22 @@ namespace Nugety
             return list;
         }
 
-        public virtual AssemblyInfo LoadAssembly(ModuleInfo module, string location)
+        public virtual AssemblyInfo LoadAssembly(ModuleInfo module, AssemblyName name)
         {
-            var name = AssemblyName.GetAssemblyName(location);
             var assembly = Assembly.Load(name);
             return assembly != null ? new AssemblyInfo(assembly) : null;
         }
 
-        public virtual AssemblyInfo LoadAssembly(ModuleInfo module, AssemblyName name)
+        public virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name)
         {
             var directory = new DirectoryInfo(Path.GetDirectoryName(module.Location));
             var filtered = directory.GetFileSystemInfos(string.Concat(name.Name, ".dll"), SearchOption.AllDirectories);
-            var assemblyInfo = ResolveAssembly(module, name, filtered);
+            var assemblyInfo = this.ResolveAssembly(module, name, filtered);
 
             if (assemblyInfo == null)
             {
                 var files = directory.GetFileSystemInfos("*.dll", SearchOption.AllDirectories).Where(f => !filtered.Any(t => t.Name.Equals(f.Name))).ToArray();
-                assemblyInfo = ResolveAssembly(module, name, files);
+                assemblyInfo = this.ResolveAssembly(module, name, files);
             }
             if (assemblyInfo != null)
             {
@@ -122,29 +122,20 @@ namespace Nugety
         {
             if (files.Any())
             { 
-                var assemblies = this.Catalog.Domain.GetAssemblies();
                 foreach (var file in files)
                 {
                     var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
-                    var dependency = module.Assemblies.FirstOrDefault(d => d.Assembly.GetName().ToString().Equals(assemblyName.ToString()));
-                    if (dependency == null)
+                    if (assemblyName.ToString().Equals(name.ToString()))
                     {
-                        if (!assemblies.Any(c => c.GetName().ToString().Equals(assemblyName.ToString())))
+                        try
                         {
-                            try
-                            {
-                                var info = this.LoadAssembly(module, file.FullName);
-                                if (info != null) dependency = new AssemblyInfo(info.Assembly);
-                            }
-                            catch
-                            {
-                                // Consume exception. Assembly failing to load should not fail all assemblies.
-                            }
+                            var info = this.LoadAssembly(module, assemblyName);
+                            if (info != null) return info;
                         }
-                    }
-                    if (dependency != null && dependency.Assembly.GetName().ToString().Equals(name.ToString()))
-                    {
-                        return dependency;
+                        catch
+                        {
+                            // Consume exception. Assembly failing to load should not fail all assemblies.
+                        }
                     }
                 }   
             }

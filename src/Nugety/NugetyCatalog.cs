@@ -162,7 +162,7 @@ namespace Nugety
 
                         foreach (var module in this.Modules.Where(m => m.AllowAssemblyResolve))
                         {
-                            var assemblyInfo = module.ModuleProvider.LoadAssembly(module, name);
+                            var assemblyInfo = module.ModuleProvider.ResolveAssembly(module, name);
                             if (assemblyInfo != null)
                             {
                                 var args = new AssemblyResolvedEventArgs(name, module, assemblyInfo);

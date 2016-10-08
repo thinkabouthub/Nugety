@@ -24,12 +24,12 @@ namespace Nugety
             return null;
         }
 
-        public virtual AssemblyInfo LoadAssembly(ModuleInfo module, string location)
+        public virtual AssemblyInfo LoadAssembly(ModuleInfo module, AssemblyName name)
         {
             return null;
         }
 
-        public virtual AssemblyInfo LoadAssembly(ModuleInfo module, AssemblyName name)
+        public virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name)
         {
             return null;
         }
