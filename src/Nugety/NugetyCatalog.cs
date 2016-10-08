@@ -13,10 +13,10 @@ namespace Nugety
         private readonly Collection<ModuleInfo> _modules = new Collection<ModuleInfo>();
         public static readonly object _lock = new object();
 
-        public NugetyCatalog(AppDomain domain)
+        public NugetyCatalog(AppDomain domain, bool subscribeToDomain = true)
         {
             this.Domain = domain;
-            this.Domain.AssemblyResolve += this.Domain_AssemblyResolve;
+            if (subscribeToDomain) this.Domain.AssemblyResolve += this.Domain_AssemblyResolve;
         }
 
         public NugetyCatalog(bool subscribeToDomain = true)

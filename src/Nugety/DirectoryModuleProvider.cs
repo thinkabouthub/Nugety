@@ -42,7 +42,7 @@ namespace Nugety
 
         protected virtual ModuleInfo<T> LoadUsingFileName<T>(DirectoryInfo directory)
         {
-            var names = AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetName());
+            var names = this.Catalog.Domain.GetAssemblies().Select(a => a.GetName());
             foreach (var file in directory.GetFileSystemInfos(!string.IsNullOrEmpty(Catalog.Options.ModuleFileNameFilterPattern) 
                 ? Catalog.Options.ModuleFileNameFilterPattern 
                 : "*.dll", 
@@ -51,13 +51,16 @@ namespace Nugety
                 if (!names.Any(n => n == AssemblyName.GetAssemblyName(file.FullName)))
                 {
                     var info = this.LoadAssembly(null, file.FullName);
-                    var module = new ModuleInfo<T>(this, directory.Name, new AssemblyInfo(info.Assembly));
-                    var type = this.Catalog.GetModuleInitializer<T>(info.Assembly);
-                    if (type != null)
+                    if (info != null)
                     {
-                        module.AddModuleInitialiser(type);
-                        this.Catalog.AddModule(module);
-                        return module;
+                        var module = new ModuleInfo<T>(this, directory.Name, new AssemblyInfo(info.Assembly));
+                        var type = this.Catalog.GetModuleInitializer<T>(info.Assembly);
+                        if (type != null)
+                        {
+                            module.AddModuleInitialiser(type);
+                            this.Catalog.AddModule(module);
+                            return module;
+                        }
                     }
                 }
             }
@@ -92,7 +95,8 @@ namespace Nugety
 
         public virtual AssemblyInfo LoadAssembly(ModuleInfo module, string location)
         {
-            var assembly = Assembly.LoadFrom(location);
+            var name = AssemblyName.GetAssemblyName(location);
+            var assembly = Assembly.Load(name);
             return assembly != null ? new AssemblyInfo(assembly) : null;
         }
 
@@ -116,30 +120,33 @@ namespace Nugety
 
         protected virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name, FileSystemInfo[] files)
         {
-            var assemblies = this.Catalog.Domain.GetAssemblies();
-            foreach (var file in files)
-            {
-                var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
-                var dependency = module.Assemblies.FirstOrDefault(d => d.Assembly.GetName().ToString().Equals(assemblyName.ToString()));
-                if (dependency == null)
+            if (files.Any())
+            { 
+                var assemblies = this.Catalog.Domain.GetAssemblies();
+                foreach (var file in files)
                 {
-                    if (!assemblies.Any(c => c.GetName().ToString().Equals(assemblyName.ToString())))
+                    var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
+                    var dependency = module.Assemblies.FirstOrDefault(d => d.Assembly.GetName().ToString().Equals(assemblyName.ToString()));
+                    if (dependency == null)
                     {
-                        try
+                        if (!assemblies.Any(c => c.GetName().ToString().Equals(assemblyName.ToString())))
                         {
-                            var info = module.ModuleProvider.LoadAssembly(module, file.FullName);
-                            if (info != null) dependency = new AssemblyInfo(info.Assembly);
-                        }
-                        catch
-                        {
-                            // Consume exception. Assembly failing to load should not fail all assemblies.
+                            try
+                            {
+                                var info = this.LoadAssembly(module, file.FullName);
+                                if (info != null) dependency = new AssemblyInfo(info.Assembly);
+                            }
+                            catch
+                            {
+                                // Consume exception. Assembly failing to load should not fail all assemblies.
+                            }
                         }
                     }
-                }
-                if (dependency != null && dependency.Assembly.GetName().ToString().Equals(name.ToString()))
-                {
-                    return dependency;
-                }
+                    if (dependency != null && dependency.Assembly.GetName().ToString().Equals(name.ToString()))
+                    {
+                        return dependency;
+                    }
+                }   
             }
             return null;
         }
