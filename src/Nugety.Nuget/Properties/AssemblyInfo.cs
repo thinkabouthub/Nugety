@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("e5Workflow")]
+[assembly: AssemblyCompany("ThinkAbout")]
 [assembly: AssemblyProduct("Nugety.Nuget")]
 [assembly: AssemblyTrademark("")]
 
