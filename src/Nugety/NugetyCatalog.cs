@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
@@ -142,7 +143,7 @@ namespace Nugety
 
         protected virtual Assembly Domain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            return this.ResolveAssembly(new AssemblyName(args.Name));
+            return this.Options.ProbeCatalogForDependency ? this.ResolveAssembly(new AssemblyName(args.Name)) : null;
         }
 
         public virtual Assembly ResolveAssembly(AssemblyName name)
