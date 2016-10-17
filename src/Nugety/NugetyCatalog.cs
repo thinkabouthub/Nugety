@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
 
 namespace Nugety
 {
@@ -12,6 +12,7 @@ namespace Nugety
         private NugetyCatalogOptions options;
         private readonly Collection<ModuleInfo> _modules = new Collection<ModuleInfo>();
         public static readonly object _lock = new object();
+        public ILoggerFactory Logger { get; set; }
 
         public NugetyCatalog(AppDomain domain, bool subscribeToDomain = true)
         {
@@ -31,15 +32,9 @@ namespace Nugety
 
         private readonly Collection<AssemblyName> assemblyResolveFailed = new Collection<AssemblyName>();
 
-        public IEnumerable<AssemblyName> AssemblyResolveFailed
-        {
-            get { return this.assemblyResolveFailed; }
-        }
+        public IEnumerable<AssemblyName> AssemblyResolveFailed => this.assemblyResolveFailed;
 
-        public IEnumerable<ModuleInfo> Modules
-        {
-            get { return this._modules; }
-        }
+        public IEnumerable<ModuleInfo> Modules => this._modules;
 
         public void AddModule(ModuleInfo module)
         {
@@ -57,10 +52,7 @@ namespace Nugety
             }
         }
 
-        public NugetyCatalogOptions Options
-        {
-            get { return options ?? (options = new NugetyCatalogOptions(this)); }
-        }
+        public NugetyCatalogOptions Options => options ?? (options = new NugetyCatalogOptions(this));
 
         public virtual T Load<T>(ModuleInfo module)
         {
@@ -93,15 +85,21 @@ namespace Nugety
 
         public virtual Type GetModuleInitializer(Assembly assembly, Type initialiser)
         {
-            var type = assembly.GetTypes().FirstOrDefault(t => !t.GetTypeInfo().IsInterface && initialiser.IsAssignableFrom(t));
-            if (type != null) return type;
-            type = assembly.ExportedTypes.FirstOrDefault(t => t == initialiser);
-            if (type != null) return type;
+            try
+            {
+                var type = assembly.GetTypes().FirstOrDefault(t => !t.GetTypeInfo().IsInterface && initialiser.IsAssignableFrom(t));
+                if (type != null) return type;
+                type = assembly.ExportedTypes.FirstOrDefault(t => t == initialiser);
+                if (type != null) return type;
+            }
+            catch (ReflectionTypeLoadException)
+            {
+                if (!this.Options.IgnoreLoaderExceptions) throw;
+            }
             return null;
         }
 
-        public virtual IEnumerable<ModuleInfo<T>> GetMany<T>(
-            params Func<INugetyCatalogProvider, IEnumerable<ModuleInfo<T>>>[] loaders)
+        public virtual IEnumerable<ModuleInfo<T>> GetMany<T>(params Func<INugetyCatalogProvider, IEnumerable<ModuleInfo<T>>>[] loaders)
         {
             var loadModules = new List<ModuleInfo<T>>();
 
@@ -176,6 +174,12 @@ namespace Nugety
                 }
                 return cancelArgs.Assembly;
             }
+        }
+
+        public virtual INugetyCatalogProvider UseLoggerFactory(ILoggerFactory loggerFactory)
+        {
+            this.Logger = loggerFactory;
+            return this;
         }
     }
 }

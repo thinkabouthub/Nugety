@@ -14,10 +14,7 @@ namespace Nugety
 
         public INugetyCatalogProvider Catalog { get; }
 
-        public NugetLoaderOptions Options
-        {
-            get { return options ?? (options = new NugetLoaderOptions(this)); }
-        }
+        public NugetLoaderOptions Options => options ?? (options = new NugetLoaderOptions(this)); 
 
         public virtual IEnumerable<ModuleInfo<T>> GetModules<T>(params string[] name)
         {

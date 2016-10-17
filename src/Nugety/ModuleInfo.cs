@@ -38,10 +38,7 @@ namespace Nugety
             this.AllowAssemblyResolve = true;
         }
 
-        public INugetyCatalogProvider Catalog
-        {
-            get { return this.ModuleProvider?.Catalog; }
-        }
+        public INugetyCatalogProvider Catalog => this.ModuleProvider?.Catalog; 
 
         public IModuleProvider ModuleProvider { get; private set; }
 
@@ -51,21 +48,14 @@ namespace Nugety
 
         public bool AllowAssemblyResolve { get; set; }
 
-        public string Location
-        {
-            get { return AssemblyInfo.Assembly.Location; }
-        }
+        public string Location => AssemblyInfo.Assembly.Location; 
 
         public AssemblyInfo AssemblyInfo { get; }
 
-        public IEnumerable<AssemblyInfo> Assemblies
-        {
-            get { return this._assemblies; }
-        }
+        public IEnumerable<AssemblyInfo> Assemblies => this._assemblies;
 
         protected virtual void AddModuleInitialiser(Type type)
         {
-            //if (!AssemblyInfo.Assembly.ExportedTypes.Contains(type)) throw new InvalidDataException(string.Format("Type '{0}' does not exist in Assembly '{1}'", type, AssemblyInfo.Assembly));
             this.ModuleInitialiser = type;
             this.AddAssembly(new AssemblyInfo(type.Assembly));
         }

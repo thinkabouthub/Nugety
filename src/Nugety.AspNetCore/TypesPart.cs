@@ -10,7 +10,7 @@ namespace Nugety
     {
         public TypesPart(params Type[] types)
         {
-            Types = types.Select(t => t.GetTypeInfo());
+            this.Types = types.Select(t => t.GetTypeInfo());
         }
 
         public override string Name => string.Join(", ", Types.Select(t => t.FullName));

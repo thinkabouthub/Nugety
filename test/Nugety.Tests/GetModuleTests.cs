@@ -11,7 +11,7 @@ namespace Nugety.Tests
         public void Given_FileNameFilterPattern_When_Invalid_Then_NoModuleReturned()
         {
             var modules = new NugetyCatalog()
-                .Options.SetModuleFileNameFilter("*Module2")
+                .Options.SetModuleFileNameFilter("*Module3.dll")
                 .FromDirectory()
                 .GetModules<IModuleInitializer>();
 
@@ -143,7 +143,7 @@ namespace Nugety.Tests
         {
             var catalog = new NugetyCatalog();
             var modules = catalog
-                .Options.SetModuleFileNameFilter("*Module3*")
+                .Options.SetModuleFileNameFilter("*Module3.dll")
                 .FromDirectory()
                 .GetModules<IModuleInitializer>();
 
