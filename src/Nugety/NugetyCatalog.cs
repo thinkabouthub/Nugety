@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Extensions.Logging;
 
 namespace Nugety
 {
@@ -13,7 +12,7 @@ namespace Nugety
         private NugetyCatalogOptions options;
         private readonly Collection<ModuleInfo> _modules = new Collection<ModuleInfo>();
         public static readonly object _lock = new object();
-        public ILoggerFactory Logger { get; set; }
+        //public ILoggerFactory Logger { get; set; }
 
         public NugetyCatalog(AppDomain domain, bool subscribeToDomain = true)
         {
@@ -64,7 +63,8 @@ namespace Nugety
             if (!args.Cancel)
             {
                 var instance = (T) module.AssemblyInfo.Assembly.CreateInstance(module.ModuleInitialiser.FullName);
-                OnModuleLoaded(module, instance);
+                Debug.WriteLine($"Module Initializer Instance of type '{instance.GetType().FullName}' loaded");
+                this.OnModuleLoaded(module, instance);
                 return instance;
             }
             return default(T);
@@ -75,7 +75,7 @@ namespace Nugety
             var instances = new Collection<T>();
             foreach (var module in modules)
             {
-                var i = Load<T>(module);
+                var i = this.Load<T>(module);
                 if (i != null) instances.Add(i);
             }
             return instances;
@@ -88,18 +88,25 @@ namespace Nugety
 
         public virtual Type GetModuleInitializer(Assembly assembly, Type initialiser)
         {
+            Type type = null;
             try
             {
-                var type = assembly.GetTypes().FirstOrDefault(t => !t.GetTypeInfo().IsInterface && initialiser.IsAssignableFrom(t));
-                if (type != null) return type;
-                type = assembly.ExportedTypes.FirstOrDefault(t => t == initialiser);
-                if (type != null) return type;
+                type = assembly.GetTypes().FirstOrDefault(t => !t.GetTypeInfo().IsInterface && initialiser.IsAssignableFrom(t));
+                if (type == null)
+                {
+                    type = assembly.ExportedTypes.FirstOrDefault(t => t == initialiser);
+                }
+                if (type != null)
+                    Debug.WriteLine($"Module Initializer '{type}' of type '{initialiser}' found in Assembly '{assembly}'");
+                else
+                    Debug.WriteLine($"Module Initializer of type '{initialiser}' not found in Assembly '{assembly}'");
+
             }
             catch (ReflectionTypeLoadException)
             {
                 if (!this.Options.IgnoreLoaderExceptions) throw;
             }
-            return null;
+            return type;
         }
 
         public virtual IEnumerable<ModuleInfo<T>> GetMany<T>(params Func<INugetyCatalogProvider, IEnumerable<ModuleInfo<T>>>[] loaders)
@@ -157,7 +164,9 @@ namespace Nugety
                 if (!cancelArgs.Cancel)
                 { 
                     if (!this.AssemblyResolveFailed.Any(n => n.Name.Equals(name.Name)))
-                    { 
+                    {
+                        Debug.WriteLine($"Resolve Assembly '{name.FullName}'");
+
                         var assemblies = this.Modules.SelectMany(m => m.Assemblies.Where(d => d.Assembly.GetName().Name.Equals(name.Name))).ToList();
                         if (assemblies.Any()) return assemblies.First().Assembly;
 
@@ -166,11 +175,14 @@ namespace Nugety
                             var assemblyInfo = module.ModuleProvider.ResolveAssembly(module, name);
                             if (assemblyInfo != null)
                             {
+                                Debug.WriteLine($"Assembly found in Module '{module.Name}' at location '{module.Location}'");
+
                                 var args = new AssemblyResolvedEventArgs(name, module, assemblyInfo);
                                 this.OnAssemblyResolved(args);
                                 return assemblyInfo.Assembly;
                             }
                         }
+                        Debug.WriteLine($"Cannot Resolve Assembly '{name.FullName}'");
                         this.assemblyResolveFailed.Add(name);
                     }
                     return null;
@@ -179,11 +191,11 @@ namespace Nugety
             }
         }
 
-        public virtual INugetyCatalogProvider UseLoggerFactory(ILoggerFactory loggerFactory)
-        {
-            this.Logger = loggerFactory;
-            return this;
-        }
+        //public virtual INugetyCatalogProvider UseLoggerFactory(ILoggerFactory loggerFactory)
+        //{
+        //    this.Logger = loggerFactory;
+        //    return this;
+        //}
 
         protected virtual void Dispose(bool disposing)
         {

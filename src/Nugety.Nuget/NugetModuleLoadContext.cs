@@ -30,7 +30,7 @@
 //            return null;
 //        }
 
-//        public virtual ModuleInfo<T> LoadUsingFileName<T>()
+//        public virtual ModuleInfo<T> LoadModuleUsingFileName<T>()
 //        {
 //            return null;
 //        }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Extensions.Logging;
 
 namespace Nugety
 {
@@ -39,6 +38,6 @@ namespace Nugety
 
         AppDomain Domain { get; }
 
-        INugetyCatalogProvider UseLoggerFactory(ILoggerFactory loggerFactory);
+        //INugetyCatalogProvider UseLoggerFactory(ILoggerFactory loggerFactory);
     }
 }

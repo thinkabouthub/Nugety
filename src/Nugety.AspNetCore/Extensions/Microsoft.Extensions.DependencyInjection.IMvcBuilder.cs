@@ -50,7 +50,7 @@ namespace Nugety
             return builder.PartManager.ApplicationParts.OfType<TypesPart>().Any(p => p.Types.Any(i => types.Any(t => t == i.AsType())));
         }
 
-        public static bool ApplicationPartExists<T>(this IMvcBuilder builder) where T : Type
+        public static bool ApplicationPartExists<T>(this IMvcBuilder builder) where T : class
         {
             return builder.PartManager.ApplicationParts.OfType<TypesPart>().Any(p => p.Types.Any(i => i.AsType() == typeof(T)));
         }
@@ -61,7 +61,7 @@ namespace Nugety
             return builder;
         }
 
-        public static IMvcBuilder AddApplicationPart<T>(this IMvcBuilder builder) where T :Type
+        public static IMvcBuilder AddApplicationPart<T>(this IMvcBuilder builder) where T : class
         {
             builder.ConfigureApplicationPartManager(manager => { manager.ApplicationParts.Add(new TypesPart(typeof(T))); });
             return builder;
@@ -77,7 +77,7 @@ namespace Nugety
             return builder;
         }
 
-        public static IMvcBuilder RemoveApplicationPart<T>(this IMvcBuilder builder) where T : Type
+        public static IMvcBuilder RemoveApplicationPart<T>(this IMvcBuilder builder) where T : class
         {
             var parts = builder.PartManager.ApplicationParts.OfType<TypesPart>().Where(p => p.Types.Any(i => i.AsType() == typeof(T))).ToList();
             foreach (var part in parts)

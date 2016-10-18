@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -22,18 +23,22 @@ namespace Nugety
 
         public virtual IEnumerable<ModuleInfo<T>> GetModules<T>(params string[] name)
         {
-            return LoadFromDirectory<T>(name);
+            return GetFromDirectory<T>(name);
         }
 
-        protected virtual IEnumerable<ModuleInfo<T>> LoadFromDirectory<T>(params string[] name)
+        protected virtual IEnumerable<ModuleInfo<T>> GetFromDirectory<T>(params string[] name)
         {
+            Debug.WriteLine($"Resolving Modules From Directory '{string.Join(",", name)}'");
+
             var modules = new List<ModuleInfo<T>>();
             var directories = this.GetModuleDirectories(name);
             foreach (var directory in directories)
             {
+                Debug.WriteLine($"Get Module '{directory.FullName}'");
+
                 if (!this.Catalog.Modules.Any(m => m.Name == directory.Name))
                 {
-                    var module = this.LoadUsingFileName<T>(directory);
+                    var module = this.GetUsingFileName<T>(directory);
                     if (module != null) modules.Add(module);
                 }
             }
@@ -57,7 +62,7 @@ namespace Nugety
             return filter;
         }
 
-        protected virtual ModuleInfo<T> LoadUsingFileName<T>(DirectoryInfo directory)
+        protected virtual ModuleInfo<T> GetUsingFileName<T>(DirectoryInfo directory)
         {
             var filter = this.ParseModuleFileNameFilter(Catalog.Options.ModuleFileNameFilterPattern);
             foreach (var file in directory.GetFileSystemInfos(!string.IsNullOrEmpty(filter) 
@@ -73,6 +78,7 @@ namespace Nugety
                     if (type != null)
                     {
                         var module = new ModuleInfo<T>(this, directory.Name, new AssemblyInfo(info.Assembly), type);
+                        Debug.WriteLine($"Module '{module.Name}' Resolved");
                         this.Catalog.AddModule(module);
                         return module;
                     }
