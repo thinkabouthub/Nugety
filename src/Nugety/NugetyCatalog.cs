@@ -29,6 +29,8 @@ namespace Nugety
 
         public static INugetyCatalogProvider Catalog { get; set; }
 
+        private bool disposed = false;
+
         public AppDomain Domain { get; }
 
         private readonly Collection<AssemblyName> assemblyResolveFailed = new Collection<AssemblyName>();
@@ -181,6 +183,27 @@ namespace Nugety
         {
             this.Logger = loggerFactory;
             return this;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    if (this.Domain != null)
+                    {
+                        this.Domain.AssemblyResolve -= this.Domain_AssemblyResolve;
+                    }
+                }
+
+                disposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }

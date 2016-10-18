@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Nugety
 {
-    public interface INugetyCatalogProvider
+    public interface INugetyCatalogProvider : IDisposable
     {
         event EventHandler<ModuleCancelEventArgs> ModuleLoading;
 

@@ -28,12 +28,12 @@ namespace Nugety
         protected virtual IEnumerable<ModuleInfo<T>> LoadFromDirectory<T>(params string[] name)
         {
             var modules = new List<ModuleInfo<T>>();
-            var directories = GetModuleDirectories(name);
+            var directories = this.GetModuleDirectories(name);
             foreach (var directory in directories)
             {
                 if (!this.Catalog.Modules.Any(m => m.Name == directory.Name))
                 {
-                    var module = LoadUsingFileName<T>(directory);
+                    var module = this.LoadUsingFileName<T>(directory);
                     if (module != null) modules.Add(module);
                 }
             }

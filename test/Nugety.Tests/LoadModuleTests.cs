@@ -12,23 +12,29 @@ namespace Nugety.Tests
         [Fact]
         public void Given_Initializer_When_Invalid_Then_NoInstancesReturned()
         {
-            var modules = new NugetyCatalog()
-                .FromDirectory()
-                .GetModules<InvalidInterface>("Module1");
+            using (var catalog = new NugetyCatalog())
+            {
+                var modules = catalog
+                    .FromDirectory()
+                    .GetModules<InvalidInterface>("Module1");
 
-            var instances = modules.Load();
-            Assert.True(!instances.OfType<InvalidInterface>().Any());
+                var instances = modules.Load();
+                Assert.True(!instances.OfType<InvalidInterface>().Any());
+            }
         }
 
         [Fact]
         public void Given_Initializer_When_Valid_Then_ModuleInstanceReturned()
         {
-            var modules = new NugetyCatalog()
-                .FromDirectory()
-                .GetModules<IModuleInitializer>("Module1");
+            using (var catalog = new NugetyCatalog())
+            {
+                var modules = catalog
+                    .FromDirectory()
+                    .GetModules<IModuleInitializer>("Module1");
 
-            var instances = modules.Load();
-            Assert.True(instances.OfType<IModuleInitializer>().Any());
+                var instances = modules.Load();
+                Assert.True(instances.OfType<IModuleInitializer>().Any());
+            }
         }
     }
 }
