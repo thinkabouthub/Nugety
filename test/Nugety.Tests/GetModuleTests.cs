@@ -67,7 +67,7 @@ namespace Nugety.Tests
                 Assert.True(!string.IsNullOrEmpty(module.Location));
                 Assert.NotNull(module.AssemblyInfo);
                 Assert.NotNull(module.AssemblyInfo.Assembly);
-                Assert.True(!string.IsNullOrEmpty(module.AssemblyInfo.Location));
+                Assert.True(!string.IsNullOrEmpty(module.AssemblyInfo.Assembly.CodeBase));
             }
         }
 

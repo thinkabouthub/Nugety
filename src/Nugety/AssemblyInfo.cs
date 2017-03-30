@@ -6,8 +6,8 @@ namespace Nugety
     {
         public AssemblyInfo(Assembly assembly)
         {
-            Assembly = assembly;
-            Location = Assembly.Location;
+            this.Assembly = assembly;
+            this.Location = Assembly.Location;
         }
 
         public Assembly Assembly { get; set; }

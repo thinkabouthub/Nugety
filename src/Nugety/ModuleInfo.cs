@@ -48,7 +48,7 @@ namespace Nugety
 
         public bool AllowAssemblyResolve { get; set; }
 
-        public string Location => AssemblyInfo.Assembly.Location; 
+        public string Location => new Uri(AssemblyInfo.Assembly.CodeBase).LocalPath; 
 
         public AssemblyInfo AssemblyInfo { get; }
 

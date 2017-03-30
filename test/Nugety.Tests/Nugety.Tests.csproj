@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <AssemblyName>Nugety.Tests</AssemblyName>
+    <PackageId>Nugety.Tests</PackageId>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Nugety.AspNetCore\Nugety.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\Nugety\Nugety.csproj" />
+    <ProjectReference Include="..\Nugety.Tests.Common\Nugety.Tests.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta1-build1304" />
+    <PackageReference Include="xunit" Version="2.3.0-beta1-build3631" />
+  </ItemGroup>
+  
+  <Target Name="PostcompileScript" AfterTargets="Build">
+    <Exec Command="xcopy /f /r /y /i /s &quot;$(MSBuildProjectDirectory)\Nugety&quot; &quot;$(MSBuildProjectDirectory)\bin\Debug\net461\Nugety\&quot;" />
+  </Target>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+</Project>

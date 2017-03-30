@@ -1,44 +1,41 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Nuget.Tests", "Nugety.Nuget.Tests\Nugety.Nuget.Tests.xproj", "{62685049-EB7C-4D39-B3AD-A9205EEAAC28}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Tests", "Nugety.Tests\Nugety.Tests.xproj", "{165647E9-35B5-40F3-B48E-829DF4E8AF62}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Tests.Common", "Nugety.Tests.Common\Nugety.Tests.Common.xproj", "{6F410A8F-06B6-4D04-A9BB-2AD1916E4806}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Tests.Dependency1", "Nugety.Tests.Dependency1\Nugety.Tests.Dependency1.xproj", "{E3D7346A-7F0C-4ACA-8CAD-0B3A6C1411C9}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Tests.Dependency2", "Nugety.Tests.Dependency2\Nugety.Tests.Dependency2.xproj", "{3B8D6245-C434-4947-AEDF-D69A8FD6D261}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Tests.Dependency3", "Nugety.Tests.Dependency3\Nugety.Tests.Dependency3.xproj", "{E3E607AD-3243-4659-A4A7-5E116151C324}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Tests.Module1", "Nugety.Tests.Module1\Nugety.Tests.Module1.xproj", "{69643F75-7A3F-4D9C-AD61-9AB37D221A64}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Tests.Module2", "Nugety.Tests.Module2\Nugety.Tests.Module2.xproj", "{BAE3E1C8-8DB2-47E2-A209-F64B6E1FE212}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Tests.Module3", "Nugety.Tests.Module3\Nugety.Tests.Module3.xproj", "{6A8D59DA-5B59-471D-88F6-3022389530C0}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Tests.Module4", "Nugety.Tests.Module4\Nugety.Tests.Module4.xproj", "{119F1B09-1A3A-44E0-9511-6971B1E9E2E4}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Tests.Module5", "Nugety.Tests.Module5\Nugety.Tests.Module5.xproj", "{E8E38E3F-C5A4-4B22-A55F-63B8A0563358}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety", "..\src\Nugety\Nugety.xproj", "{4CB066AA-7A5D-4A72-BDCB-29D3A5E0FDFF}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.AspNetCore", "..\src\Nugety.AspNetCore\Nugety.AspNetCore.xproj", "{15AF23D4-17D2-44FC-BD5A-5BF86F0ACB50}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Autofac", "..\src\Nugety.Autofac\Nugety.Autofac.xproj", "{FF3ADB85-F94E-431A-917E-BD8F9755B473}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Nuget", "..\src\Nugety.Nuget\Nugety.Nuget.xproj", "{C26E091B-1397-406E-9758-4BD4CAB0C2A3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5893FCB5-78B6-4807-83FE-2C9565BBDBF8}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nugety.Tests.Module6", "Nugety.Tests.Module6\Nugety.Tests.Module6.xproj", "{2955CE60-C670-4FC4-801C-59642212582A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Nuget.Tests", "Nugety.Nuget.Tests\Nugety.Nuget.Tests.csproj", "{62685049-EB7C-4D39-B3AD-A9205EEAAC28}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Tests", "Nugety.Tests\Nugety.Tests.csproj", "{165647E9-35B5-40F3-B48E-829DF4E8AF62}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Tests.Common", "Nugety.Tests.Common\Nugety.Tests.Common.csproj", "{6F410A8F-06B6-4D04-A9BB-2AD1916E4806}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Tests.Dependency1", "Nugety.Tests.Dependency1\Nugety.Tests.Dependency1.csproj", "{E3D7346A-7F0C-4ACA-8CAD-0B3A6C1411C9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Tests.Dependency2", "Nugety.Tests.Dependency2\Nugety.Tests.Dependency2.csproj", "{3B8D6245-C434-4947-AEDF-D69A8FD6D261}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Tests.Dependency3", "Nugety.Tests.Dependency3\Nugety.Tests.Dependency3.csproj", "{E3E607AD-3243-4659-A4A7-5E116151C324}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Tests.Module1", "Nugety.Tests.Module1\Nugety.Tests.Module1.csproj", "{69643F75-7A3F-4D9C-AD61-9AB37D221A64}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Tests.Module2", "Nugety.Tests.Module2\Nugety.Tests.Module2.csproj", "{BAE3E1C8-8DB2-47E2-A209-F64B6E1FE212}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Tests.Module3", "Nugety.Tests.Module3\Nugety.Tests.Module3.csproj", "{6A8D59DA-5B59-471D-88F6-3022389530C0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Tests.Module4", "Nugety.Tests.Module4\Nugety.Tests.Module4.csproj", "{119F1B09-1A3A-44E0-9511-6971B1E9E2E4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Tests.Module5", "Nugety.Tests.Module5\Nugety.Tests.Module5.csproj", "{E8E38E3F-C5A4-4B22-A55F-63B8A0563358}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Tests.Module6", "Nugety.Tests.Module6\Nugety.Tests.Module6.csproj", "{2955CE60-C670-4FC4-801C-59642212582A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety", "..\src\Nugety\Nugety.csproj", "{F5D511A2-C41C-45AB-8693-3BBED020EFEA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Nuget", "..\src\Nugety.Nuget\Nugety.Nuget.csproj", "{E54ACCDC-0A13-4358-84C3-A8EEC3E8A1CE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.AspNetCore", "..\src\Nugety.AspNetCore\Nugety.AspNetCore.csproj", "{40CA98C4-74FB-46BB-AC4C-3C20B19A8CF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Autofac", "..\src\Nugety.Autofac\Nugety.Autofac.csproj", "{3B7C643A-866F-478F-9904-2AC6D0084834}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,26 +87,26 @@ Global
 		{E8E38E3F-C5A4-4B22-A55F-63B8A0563358}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8E38E3F-C5A4-4B22-A55F-63B8A0563358}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8E38E3F-C5A4-4B22-A55F-63B8A0563358}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4CB066AA-7A5D-4A72-BDCB-29D3A5E0FDFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4CB066AA-7A5D-4A72-BDCB-29D3A5E0FDFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CB066AA-7A5D-4A72-BDCB-29D3A5E0FDFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4CB066AA-7A5D-4A72-BDCB-29D3A5E0FDFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15AF23D4-17D2-44FC-BD5A-5BF86F0ACB50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15AF23D4-17D2-44FC-BD5A-5BF86F0ACB50}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15AF23D4-17D2-44FC-BD5A-5BF86F0ACB50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15AF23D4-17D2-44FC-BD5A-5BF86F0ACB50}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF3ADB85-F94E-431A-917E-BD8F9755B473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF3ADB85-F94E-431A-917E-BD8F9755B473}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF3ADB85-F94E-431A-917E-BD8F9755B473}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF3ADB85-F94E-431A-917E-BD8F9755B473}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C26E091B-1397-406E-9758-4BD4CAB0C2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C26E091B-1397-406E-9758-4BD4CAB0C2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C26E091B-1397-406E-9758-4BD4CAB0C2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C26E091B-1397-406E-9758-4BD4CAB0C2A3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2955CE60-C670-4FC4-801C-59642212582A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2955CE60-C670-4FC4-801C-59642212582A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2955CE60-C670-4FC4-801C-59642212582A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2955CE60-C670-4FC4-801C-59642212582A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5D511A2-C41C-45AB-8693-3BBED020EFEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5D511A2-C41C-45AB-8693-3BBED020EFEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5D511A2-C41C-45AB-8693-3BBED020EFEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5D511A2-C41C-45AB-8693-3BBED020EFEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E54ACCDC-0A13-4358-84C3-A8EEC3E8A1CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E54ACCDC-0A13-4358-84C3-A8EEC3E8A1CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E54ACCDC-0A13-4358-84C3-A8EEC3E8A1CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E54ACCDC-0A13-4358-84C3-A8EEC3E8A1CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40CA98C4-74FB-46BB-AC4C-3C20B19A8CF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40CA98C4-74FB-46BB-AC4C-3C20B19A8CF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40CA98C4-74FB-46BB-AC4C-3C20B19A8CF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40CA98C4-74FB-46BB-AC4C-3C20B19A8CF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B7C643A-866F-478F-9904-2AC6D0084834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B7C643A-866F-478F-9904-2AC6D0084834}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B7C643A-866F-478F-9904-2AC6D0084834}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B7C643A-866F-478F-9904-2AC6D0084834}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
