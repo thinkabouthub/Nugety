@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <VersionPrefix>1.0.1</VersionPrefix>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Nugety.AspNetCore</AssemblyName>

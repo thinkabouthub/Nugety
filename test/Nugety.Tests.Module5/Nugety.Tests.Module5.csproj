@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <AssemblyName>Nugety.Tests.Module5</AssemblyName>
     <AssemblyOriginatorKeyFile>../../Nugety.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
@@ -25,6 +25,10 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Configuration" />
   </ItemGroup>
 
 </Project>

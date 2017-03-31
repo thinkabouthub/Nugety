@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <AssemblyName>Nugety.Tests.Module3</AssemblyName>
     <AssemblyOriginatorKeyFile>../../Nugety.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>

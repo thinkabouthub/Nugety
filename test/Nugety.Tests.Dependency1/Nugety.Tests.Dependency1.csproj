@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <VersionPrefix>1.0.0-0</VersionPrefix>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <AssemblyName>Nugety.Tests.Dependency1</AssemblyName>
     <AssemblyOriginatorKeyFile>../../Nugety.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
