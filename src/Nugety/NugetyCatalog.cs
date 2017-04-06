@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Nugety
 {
@@ -14,17 +15,20 @@ namespace Nugety
         public static readonly object _lock = new object();
         //public ILoggerFactory Logger { get; set; }
 
-        public NugetyCatalog(AppDomain domain, bool subscribeToDomain = true)
+        public NugetyCatalog() { }
+
+        public NugetyCatalog(AppDomain domain, AssemblyHeuristicModes mode = AssemblyHeuristicModes.SearchCatalog)
         {
             this.Domain = domain;
-            if (subscribeToDomain) this.Domain.AssemblyResolve += this.Domain_AssemblyResolve;
+            this.HeuristicModes = mode;
+            if (this.Domain != null && mode.HasFlag(AssemblyHeuristicModes.SearchCatalog)) this.Domain.AssemblyResolve += this.Domain_AssemblyResolve;
         }
 
-        public NugetyCatalog(bool subscribeToDomain = true)
+        public NugetyCatalog(AssemblyHeuristicModes mode) : this(AppDomain.CurrentDomain, mode)
         {
-            this.Domain = AppDomain.CurrentDomain;
-            if (subscribeToDomain) this.Domain.AssemblyResolve += this.Domain_AssemblyResolve;
         }
+
+        public AssemblyHeuristicModes HeuristicModes { get; private set; }
 
         public static INugetyCatalogProvider Catalog { get; set; }
 
@@ -167,21 +171,31 @@ namespace Nugety
                     {
                         Debug.WriteLine($"Resolve Assembly '{name.FullName}'");
 
-                        var assemblies = this.Modules.SelectMany(m => m.Assemblies.Where(d => d.Assembly.GetName().Name.Equals(name.Name))).ToList();
-                        if (assemblies.Any()) return assemblies.First().Assembly;
+                        //var assemblies = this.Modules.SelectMany(m => m.Assemblies.Where(d => d.Assembly.GetName().Name.Equals(name.Name))).ToList();
+                        //if (assemblies.Any()) return assemblies.First().Assembly;
 
-                        foreach (var module in this.Modules.Where(m => m.AllowAssemblyResolve))
+                        AssemblyInfo assemblyInfo = null;
+                        if (this.HeuristicModes.HasFlag(AssemblyHeuristicModes.SearchCatalog)) assemblyInfo = this.ResolveAssemblyFromModules(name);
+                        if (assemblyInfo != null && assemblyInfo.Module != null)
                         {
-                            var assemblyInfo = module.ModuleProvider.ResolveAssembly(module, name);
+                            Debug.WriteLine($"Assembly '{name.FullName}' found in Module '{assemblyInfo.Module.Name}' at location '{assemblyInfo.Location}'");
+                        }
+                        if (assemblyInfo == null && this.HeuristicModes.HasFlag(AssemblyHeuristicModes.OptimisticRedirect))
+                        {
+                            assemblyInfo = this.ResolveAssemblyWithRedirect(name);
                             if (assemblyInfo != null)
                             {
-                                Debug.WriteLine($"Assembly found in Module '{module.Name}' at location '{module.Location}'");
-
-                                var args = new AssemblyResolvedEventArgs(name, module, assemblyInfo);
-                                this.OnAssemblyResolved(args);
-                                return assemblyInfo.Assembly;
+                                Debug.WriteLine($"Assembly '{name.FullName}' found using Optimistic Redirect at location '{assemblyInfo.Location}'");
                             }
                         }
+                        if (assemblyInfo != null && assemblyInfo.Assembly != null)
+                        {
+                            var args = new AssemblyResolvedEventArgs(name, assemblyInfo.Module, assemblyInfo);
+                            this.OnAssemblyResolved(args);
+
+                            return assemblyInfo.Assembly;
+                        }
+
                         Debug.WriteLine($"Cannot Resolve Assembly '{name.FullName}'");
                         this.assemblyResolveFailed.Add(name);
                     }
@@ -189,6 +203,40 @@ namespace Nugety
                 }
                 return cancelArgs.Assembly;
             }
+        }
+
+        public virtual AssemblyInfo ResolveAssemblyWithRedirect(AssemblyName name)
+        {
+            lock (_lock)
+            {
+                var redirectName = new AssemblyName(name.Name);
+                var assembly = Assembly.Load(redirectName);
+                if (assembly != null)
+                {
+                    return new AssemblyInfo(assembly);
+                }
+                else
+                {
+                    return this.ResolveAssemblyFromModules(redirectName);
+                }
+            }
+        }
+
+        public virtual AssemblyInfo ResolveAssemblyFromModules(AssemblyName name)
+        {
+            lock (_lock)
+            { 
+
+                foreach (var module in this.Modules.Where(m => m.AllowAssemblyResolve))
+                {
+                    var assemblyInfo = module.ModuleProvider.ResolveAssembly(module, name);
+                    if (assemblyInfo != null)
+                    {
+                        return assemblyInfo;
+                    }
+                }
+            }
+            return null;
         }
 
         //public virtual INugetyCatalogProvider UseLoggerFactory(ILoggerFactory loggerFactory)

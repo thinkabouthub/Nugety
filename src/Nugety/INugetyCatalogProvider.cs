@@ -4,6 +4,13 @@ using System.Reflection;
 
 namespace Nugety
 {
+    [Flags]
+    public enum AssemblyHeuristicModes
+    {
+        SearchCatalog = 1,
+        OptimisticRedirect = 2
+    }
+
     public interface INugetyCatalogProvider : IDisposable
     {
         event EventHandler<ModuleCancelEventArgs> ModuleLoading;

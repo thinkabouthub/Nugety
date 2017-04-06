@@ -129,7 +129,7 @@ namespace Nugety
             {
                 assembly = Assembly.Load(name);
             }
-            return assembly != null ? new AssemblyInfo(assembly) : null;
+            return assembly != null ? new AssemblyInfo(assembly, module) : null;
         }
 
         public virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name)
@@ -145,7 +145,7 @@ namespace Nugety
             }
             if (assemblyInfo != null)
             {
-                module.AddAssembly(assemblyInfo);
+                //module.AddAssembly(assemblyInfo);
             }
             return assemblyInfo;
         }

@@ -52,32 +52,32 @@ namespace Nugety
 
         public AssemblyInfo AssemblyInfo { get; }
 
-        public IEnumerable<AssemblyInfo> Assemblies => this._assemblies;
+        //public IEnumerable<AssemblyInfo> Assemblies => this._assemblies;
 
         protected virtual void AddModuleInitialiser(Type type)
         {
             this.ModuleInitialiser = type;
-            this.AddAssembly(new AssemblyInfo(type.Assembly));
+            //this.AddAssembly(new AssemblyInfo(type.Assembly));
         }
 
-        public void AddAssembly(AssemblyInfo info)
-        {
-            lock (_lock)
-            {
-                if (!this.Assemblies.Any(a => a.Assembly.GetName().Equals(info.Assembly.GetName())))
-                {
-                    this._assemblies.Add(info);
-                }
-            }
-        }
+        //public void AddAssembly(AssemblyInfo info)
+        //{
+        //    lock (_lock)
+        //    {
+        //        if (!this.Assemblies.Any(a => a.Assembly.GetName().Equals(info.Assembly.GetName())))
+        //        {
+        //            this._assemblies.Add(info);
+        //        }
+        //    }
+        //}
 
-        public void RemoveAssembly(AssemblyInfo info)
-        {
-            lock (_lock)
-            {
-                this._assemblies.Remove(info);
-            }
-        }
+        //public void RemoveAssembly(AssemblyInfo info)
+        //{
+        //    lock (_lock)
+        //    {
+        //        this._assemblies.Remove(info);
+        //    }
+        //}
 
         public override string ToString()
         {

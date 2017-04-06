@@ -4,13 +4,16 @@ namespace Nugety
 {
     public class AssemblyInfo
     {
-        public AssemblyInfo(Assembly assembly)
+        public AssemblyInfo(Assembly assembly, ModuleInfo info = null)
         {
             this.Assembly = assembly;
             this.Location = Assembly.Location;
         }
 
-        public Assembly Assembly { get; set; }
-        public string Location { get; set; }
+        public ModuleInfo Module { get; private set; }
+
+        public Assembly Assembly { get; private set; }
+
+        public string Location { get; private set; }
     }
 }
