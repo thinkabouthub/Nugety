@@ -33,7 +33,7 @@ namespace Nugety
 
         Type GetModuleInitializer(Assembly assembly, Type initialiser);
 
-        IEnumerable<AssemblyName> AssemblyResolveFailed { get; }
+        IEnumerable<AssemblyName> AssembliesFailedToResolve { get; }
 
         IEnumerable<ModuleInfo> Modules { get; }
 
@@ -42,6 +42,10 @@ namespace Nugety
         void RemoveModule(ModuleInfo module);
 
         Assembly ResolveAssembly(AssemblyName name);
+
+        AssemblyInfo ResolveAssemblyWithRedirect(AssemblyName name);
+
+        AssemblyInfo ResolveAssemblyFromModules(AssemblyName name);
 
         AppDomain Domain { get; }
 

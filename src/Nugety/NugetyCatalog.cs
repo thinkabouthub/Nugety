@@ -36,9 +36,13 @@ namespace Nugety
 
         public AppDomain Domain { get; }
 
-        private readonly Collection<AssemblyName> assemblyResolveFailed = new Collection<AssemblyName>();
+        private readonly Collection<AssemblyName> assembliesFailedToResolve = new Collection<AssemblyName>();
 
-        public IEnumerable<AssemblyName> AssemblyResolveFailed => this.assemblyResolveFailed;
+        public IEnumerable<AssemblyName> AssembliesFailedToResolve => this.assembliesFailedToResolve;
+
+        private readonly Collection<AssemblyName> resolveCalledForAssemblies = new Collection<AssemblyName>();
+
+        public IEnumerable<AssemblyName> ResolveCalledForAssemblies => this.resolveCalledForAssemblies;
 
         public IEnumerable<ModuleInfo> Modules => this._modules;
 
@@ -66,7 +70,7 @@ namespace Nugety
             OnModuleLoading(args);
             if (!args.Cancel)
             {
-                var instance = (T) module.AssemblyInfo.Assembly.CreateInstance(module.ModuleInitialiser.FullName);
+                var instance = (T)module.AssemblyInfo.Assembly.CreateInstance(module.ModuleInitialiser.FullName);
                 Debug.WriteLine($"Module Initializer Instance of type '{instance.GetType().FullName}' loaded");
                 this.OnModuleLoaded(module, instance);
                 return instance;
@@ -166,13 +170,12 @@ namespace Nugety
                 var cancelArgs = new AssemblyResolveCancelEventArgs(name);
                 this.OnAssemblyResolve(cancelArgs);
                 if (!cancelArgs.Cancel)
-                { 
-                    if (!this.AssemblyResolveFailed.Any(n => n.Name.Equals(name.Name)))
+                {
+                    if (!this.HasResolveBeenCalled(name))
                     {
-                        Debug.WriteLine($"Resolve Assembly '{name.FullName}'");
+                        this.AddToResolveCalled(name);
 
-                        //var assemblies = this.Modules.SelectMany(m => m.Assemblies.Where(d => d.Assembly.GetName().Name.Equals(name.Name))).ToList();
-                        //if (assemblies.Any()) return assemblies.First().Assembly;
+                        Debug.WriteLine($"Resolve Assembly '{name.FullName}'");
 
                         AssemblyInfo assemblyInfo = null;
                         if (this.HeuristicModes.HasFlag(AssemblyHeuristicModes.SearchCatalog)) assemblyInfo = this.ResolveAssemblyFromModules(name);
@@ -197,12 +200,32 @@ namespace Nugety
                         }
 
                         Debug.WriteLine($"Cannot Resolve Assembly '{name.FullName}'");
-                        this.assemblyResolveFailed.Add(name);
+                        this.AddToResolveFailed(name);
                     }
                     return null;
                 }
                 return cancelArgs.Assembly;
             }
+        }
+
+        public virtual bool HasResolveFailed(AssemblyName name)
+        {
+            return this.AssembliesFailedToResolve.Any(n => n.FullName.Equals(name.FullName));
+        }
+
+        public virtual void AddToResolveFailed(AssemblyName name)
+        {
+            this.assembliesFailedToResolve.Add(name);
+        }
+
+        public virtual bool HasResolveBeenCalled(AssemblyName name)
+        {
+            return this.ResolveCalledForAssemblies.Any(n => n.FullName.Equals(name.FullName));
+        }
+
+        public virtual void AddToResolveCalled(AssemblyName name)
+        {
+            this.resolveCalledForAssemblies.Add(name);
         }
 
         public virtual AssemblyInfo ResolveAssemblyWithRedirect(AssemblyName name)
@@ -225,7 +248,7 @@ namespace Nugety
         public virtual AssemblyInfo ResolveAssemblyFromModules(AssemblyName name)
         {
             lock (_lock)
-            { 
+            {
 
                 foreach (var module in this.Modules.Where(m => m.AllowAssemblyResolve))
                 {

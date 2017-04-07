@@ -35,7 +35,6 @@ namespace Nugety.Tests
                     .GetModules<IModuleInitializer>().Load();
 
                 var assembly = Assembly.Load("Nugety.Tests.Module6, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0b0afd28caef48a5");
-
                 Assert.NotNull(assembly);
             }
         }

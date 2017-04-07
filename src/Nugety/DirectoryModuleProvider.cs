@@ -143,10 +143,6 @@ namespace Nugety
                 var files = directory.GetFileSystemInfos("*.dll", SearchOption.AllDirectories).Where(f => !filtered.Any(t => t.Name.Equals(f.Name))).ToArray();
                 assemblyInfo = this.ResolveAssembly(module, name, files);
             }
-            if (assemblyInfo != null)
-            {
-                //module.AddAssembly(assemblyInfo);
-            }
             return assemblyInfo;
         }
 
