@@ -160,7 +160,15 @@ namespace Nugety
 
         protected virtual Assembly Domain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            return this.Options.ProbeCatalogForDependency ? this.ResolveAssembly(new AssemblyName(args.Name)) : null;
+            try
+            {
+                return this.Options.ProbeCatalogForDependency ? this.ResolveAssembly(new AssemblyName(args.Name)) : null;
+            }
+            catch (Exception)
+            {
+                if (!args.Name.Contains(".resources")) throw;
+            }
+            return null;
         }
 
         public virtual Assembly ResolveAssembly(AssemblyName name)
@@ -208,22 +216,22 @@ namespace Nugety
             }
         }
 
-        public virtual bool HasResolveFailed(AssemblyName name)
+        protected virtual bool HasResolveFailed(AssemblyName name)
         {
             return this.AssembliesFailedToResolve.Any(n => n.FullName.Equals(name.FullName));
         }
 
-        public virtual void AddToResolveFailed(AssemblyName name)
+        protected virtual void AddToResolveFailed(AssemblyName name)
         {
             this.assembliesFailedToResolve.Add(name);
         }
 
-        public virtual bool HasResolveBeenCalled(AssemblyName name)
+        protected virtual bool HasResolveBeenCalled(AssemblyName name)
         {
             return this.ResolveCalledForAssemblies.Any(n => n.FullName.Equals(name.FullName));
         }
 
-        public virtual void AddToResolveCalled(AssemblyName name)
+        protected virtual void AddToResolveCalled(AssemblyName name)
         {
             this.resolveCalledForAssemblies.Add(name);
         }
