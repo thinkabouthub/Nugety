@@ -162,7 +162,7 @@ namespace Nugety
         {
             try
             {
-                return this.Options.ProbeCatalogForDependency ? this.ResolveAssembly(new AssemblyName(args.Name)) : null;
+                return this.ResolveAssembly(new AssemblyName(args.Name));
             }
             catch (Exception)
             {
