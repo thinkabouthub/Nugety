@@ -10,7 +10,7 @@ namespace Nugety.Tests
         [Fact] 
         public void Given_FileNameFilterPattern_When_Invalid_Then_NoModuleReturned()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .Options.SetModuleFileNameFilter("*Invalid.dll")
@@ -24,7 +24,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_FileNameFilterPattern_When_Valid_Then_ModuleReturned()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .Options.SetModuleFileNameFilter("*Module1.dll")
@@ -38,7 +38,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_GetManyModules_When_Valid_Then_ModulesReturned()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog.GetMany
                 (
@@ -54,7 +54,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_Module_When_Valid_Then_PropertiesPopulated()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .FromDirectory()
@@ -74,7 +74,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_ModuleLocation_When_Invalid_Then_ThrowsDirectoryNotFoundException()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 Assert.Throws<DirectoryNotFoundException>(() =>
                 {
@@ -88,7 +88,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_ModuleLocation_When_Valid_Then_ModuleReturned()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .FromDirectory()
@@ -103,7 +103,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_ModuleName_When_InValid_Then_ThrowsDirectoryNotFoundException()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var exception = Assert.Throws<DirectoryNotFoundException>(() =>
                 {
@@ -118,7 +118,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_ModuleName_When_InValidAndValid_Then_ThrowsDirectoryNotFoundException()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var exception = Assert.Throws<DirectoryNotFoundException>(() =>
                 {
@@ -133,7 +133,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_ModuleName_When_Valid_Then_ModuleReturned()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .FromDirectory()
@@ -146,7 +146,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_ModuleNameFilterPattern_When_Invalid_Then_NoModuleReturned()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .Options.SetModuleNameFilter("Invalid")
@@ -160,7 +160,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_ModuleNameFilterPattern_When_Valid_Then_ModuleReturned()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .Options.SetModuleNameFilter("Module1")

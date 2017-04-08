@@ -8,7 +8,9 @@ namespace Nugety
     public enum AssemblyHeuristicModes
     {
         SearchCatalog = 1,
-        OptimisticRedirect = 2
+        FileName = 2,
+        AssemblyName = 4,
+        OptimisticRedirect = 8
     }
 
     public interface INugetyCatalogProvider : IDisposable

@@ -11,7 +11,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_Dependency_When_DoesNotExist_Then_ThrowsException()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 Assert.Throws<FileNotFoundException>(() =>
                 {
@@ -28,7 +28,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_Dependency_When_Exists_Then_ModuleReturned()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .FromDirectory()
@@ -44,7 +44,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_TwoModules_When_HasSameDependencyDifferentVersion_Then_BothVersionsLoad()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .FromDirectory()

@@ -12,7 +12,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_Initializer_When_Invalid_Then_NoInstancesReturned()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .FromDirectory()
@@ -26,7 +26,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_Initializer_When_Valid_Then_ModuleInstanceReturned()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .FromDirectory()

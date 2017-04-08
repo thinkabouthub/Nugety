@@ -15,20 +15,15 @@ namespace Nugety
         public static readonly object _lock = new object();
         //public ILoggerFactory Logger { get; set; }
 
-        public NugetyCatalog() { }
-
-        public NugetyCatalog(AppDomain domain, AssemblyHeuristicModes mode = AssemblyHeuristicModes.SearchCatalog)
+        public NugetyCatalog(AppDomain domain)
         {
             this.Domain = domain;
-            this.HeuristicModes = mode;
-            if (this.Domain != null && mode.HasFlag(AssemblyHeuristicModes.SearchCatalog)) this.Domain.AssemblyResolve += this.Domain_AssemblyResolve;
+            if (this.Domain != null && this.Options.AssemblySearchModes.HasFlag(AssemblyHeuristicModes.SearchCatalog)) this.Domain.AssemblyResolve += this.Domain_AssemblyResolve;
         }
 
-        public NugetyCatalog(AssemblyHeuristicModes mode) : this(AppDomain.CurrentDomain, mode)
+        public NugetyCatalog() : this(AppDomain.CurrentDomain)
         {
         }
-
-        public AssemblyHeuristicModes HeuristicModes { get; private set; }
 
         public static INugetyCatalogProvider Catalog { get; set; }
 
@@ -162,7 +157,7 @@ namespace Nugety
         {
             try
             {
-                return this.ResolveAssembly(new AssemblyName(args.Name));
+                if (this.Options.AssemblySearchModes.HasFlag(AssemblyHeuristicModes.SearchCatalog)) return this.ResolveAssembly(new AssemblyName(args.Name));
             }
             catch (Exception)
             {
@@ -186,12 +181,12 @@ namespace Nugety
                         Debug.WriteLine($"Resolve Assembly '{name.FullName}'");
 
                         AssemblyInfo assemblyInfo = null;
-                        if (this.HeuristicModes.HasFlag(AssemblyHeuristicModes.SearchCatalog)) assemblyInfo = this.ResolveAssemblyFromModules(name);
+                        if (this.Options.AssemblySearchModes.HasFlag(AssemblyHeuristicModes.SearchCatalog)) assemblyInfo = this.ResolveAssemblyFromModules(name);
                         if (assemblyInfo != null && assemblyInfo.Module != null)
                         {
                             Debug.WriteLine($"Assembly '{name.FullName}' found in Module '{assemblyInfo.Module.Name}' at location '{assemblyInfo.Location}'");
                         }
-                        if (assemblyInfo == null && this.HeuristicModes.HasFlag(AssemblyHeuristicModes.OptimisticRedirect))
+                        if (assemblyInfo == null && this.Options.AssemblySearchModes.HasFlag(AssemblyHeuristicModes.OptimisticRedirect))
                         {
                             assemblyInfo = this.ResolveAssemblyWithRedirect(name);
                             if (assemblyInfo != null)

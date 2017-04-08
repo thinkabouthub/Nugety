@@ -134,16 +134,23 @@ namespace Nugety
 
         public virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name)
         {
+            AssemblyInfo info = null;
+            var search = this.Catalog.Options.AssemblySearchModes;
+
             var directory = new DirectoryInfo(Path.GetDirectoryName(module.Location));
             var filtered = directory.GetFileSystemInfos(string.Concat(name.Name, ".dll"), SearchOption.AllDirectories);
-            var assemblyInfo = this.ResolveAssembly(module, name, filtered);
 
-            if (assemblyInfo == null)
+            if (search.HasFlag(AssemblyHeuristicModes.FileName))
             {
-                var files = directory.GetFileSystemInfos("*.dll", SearchOption.AllDirectories).Where(f => !filtered.Any(t => t.Name.Equals(f.Name))).ToArray();
-                assemblyInfo = this.ResolveAssembly(module, name, files);
+                info = this.ResolveAssembly(module, name, filtered);
             }
-            return assemblyInfo;
+            if (info == null && search.HasFlag(AssemblyHeuristicModes.AssemblyName))
+            {
+                var files = directory.GetFileSystemInfos("*.dll", SearchOption.AllDirectories)
+                    .Where(f => (search.HasFlag(AssemblyHeuristicModes.FileName) && !filtered.Any(t => t.Name.Equals(f.Name))) || !search.HasFlag(AssemblyHeuristicModes.FileName)).ToArray();
+                info = this.ResolveAssembly(module, name, files);
+            }
+            return info;
         }
 
         protected virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name, FileSystemInfo[] files)
@@ -152,18 +159,19 @@ namespace Nugety
             { 
                 foreach (var file in files)
                 {
-                    var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
-                    if (assemblyName.ToString().Equals(name.ToString()))
+                    try
                     {
-                        try
+                        var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
+                        if (assemblyName.ToString().Equals(name.ToString()))
                         {
                             var info = module.ModuleProvider.LoadAssembly(module, assemblyName);
                             if (info != null) return info;
+    
                         }
-                        catch
-                        {
-                            // Consume exception. Assembly failing to load should not fail all assemblies.
-                        }
+                    }
+                    catch
+                    {
+                        // Consume exception. Assembly failing to load should not fail all assemblies.
                     }
                 }   
             }

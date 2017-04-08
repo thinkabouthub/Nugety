@@ -10,7 +10,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_AssemblyResolve_When_DependencyProbeFailed_Then_DependencyFoundWithModule()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .Options.SetModuleFileNameFilter("*Module5.dll")
@@ -27,7 +27,7 @@ namespace Nugety.Tests
         [Fact]
         public void Given_ModuleLoaded_When_AssemblyLoad_Then_AssemblyDiscovered()
         {
-            using (var catalog = new NugetyCatalog(AssemblyHeuristicModes.SearchCatalog))
+            using (var catalog = new NugetyCatalog())
             {
                 var modules = catalog
                     .Options.SetModuleFileNameFilter("*Module6.dll")
