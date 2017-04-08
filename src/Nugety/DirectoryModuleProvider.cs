@@ -140,14 +140,14 @@ namespace Nugety
             var directory = new DirectoryInfo(Path.GetDirectoryName(module.Location));
             var filtered = directory.GetFileSystemInfos(string.Concat(name.Name, ".dll"), SearchOption.AllDirectories);
 
-            if (search.HasFlag(AssemblyHeuristicModes.FileName))
+            if (search.HasFlag(AssemblySearchModes.FileName))
             {
                 info = this.ResolveAssembly(module, name, filtered);
             }
-            if (info == null && search.HasFlag(AssemblyHeuristicModes.AssemblyName))
+            if (info == null && search.HasFlag(AssemblySearchModes.AssemblyName))
             {
                 var files = directory.GetFileSystemInfos("*.dll", SearchOption.AllDirectories)
-                    .Where(f => (search.HasFlag(AssemblyHeuristicModes.FileName) && !filtered.Any(t => t.Name.Equals(f.Name))) || !search.HasFlag(AssemblyHeuristicModes.FileName)).ToArray();
+                    .Where(f => (search.HasFlag(AssemblySearchModes.FileName) && !filtered.Any(t => t.Name.Equals(f.Name))) || !search.HasFlag(AssemblySearchModes.FileName)).ToArray();
                 info = this.ResolveAssembly(module, name, files);
             }
             return info;

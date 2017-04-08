@@ -5,7 +5,7 @@ using System.Reflection;
 namespace Nugety
 {
     [Flags]
-    public enum AssemblyHeuristicModes
+    public enum AssemblySearchModes
     {
         SearchCatalog = 1,
         FileName = 2,

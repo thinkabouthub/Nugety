@@ -8,15 +8,15 @@
         {
             _catalog = catalog;
             this.IgnoreLoaderExceptions = true;
-            this.AssemblySearchModes = AssemblyHeuristicModes.SearchCatalog | AssemblyHeuristicModes.FileName |
-                                       AssemblyHeuristicModes.AssemblyName;
+            this.AssemblySearchModes = AssemblySearchModes.SearchCatalog | AssemblySearchModes.FileName |
+                                       AssemblySearchModes.AssemblyName;
         }
 
         public string ModuleFileNameFilterPattern { get; set; }
 
         public string ModuleNameFilterPattern { get; set; }
 
-        public AssemblyHeuristicModes AssemblySearchModes { get; set; }
+        public AssemblySearchModes AssemblySearchModes { get; set; }
 
         public bool IgnoreLoaderExceptions { get; set; }
 
@@ -38,7 +38,7 @@
             return _catalog;
         }
 
-        public virtual NugetyCatalog SetAssemblySearchMode(AssemblyHeuristicModes modes)
+        public virtual NugetyCatalog SetAssemblySearchMode(AssemblySearchModes modes)
         {
             this.AssemblySearchModes = modes;
             return _catalog;
