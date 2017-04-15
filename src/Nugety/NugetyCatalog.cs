@@ -214,7 +214,7 @@ namespace Nugety
         {
             lock (_lock)
             {
-                if (name.Name != name.FullName)
+                if (name.Version != null && name.CultureInfo != null)
                 {
 
                     var redirectName = new AssemblyName(name.Name);

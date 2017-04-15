@@ -161,7 +161,7 @@ namespace Nugety
                     try
                     {
                         var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
-                        var compare = name.Version == null && name.CultureInfo == null ? assemblyName.Name : name.ToString();
+                        var compare = name.Version == null && name.CultureInfo == null ? assemblyName.Name : assemblyName.ToString();
                         if (compare.Equals(name.ToString()))
                         {
                             var info = module.ModuleProvider.LoadAssembly(module, assemblyName);
