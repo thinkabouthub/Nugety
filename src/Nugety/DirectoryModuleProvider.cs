@@ -132,22 +132,21 @@ namespace Nugety
             return assembly != null ? new AssemblyInfo(assembly, module) : null;
         }
 
-        public virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name)
+        public virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name, AssemblySearchModes modes)
         {
             AssemblyInfo info = null;
-            var search = this.Catalog.Options.AssemblySearchModes;
 
             var directory = new DirectoryInfo(Path.GetDirectoryName(module.Location));
             var filtered = directory.GetFileSystemInfos(string.Concat(name.Name, ".dll"), SearchOption.AllDirectories);
 
-            if (search.HasFlag(AssemblySearchModes.FileName))
+            if (modes.HasFlag(AssemblySearchModes.FileName))
             {
                 info = this.ResolveAssembly(module, name, filtered);
             }
-            if (info == null && search.HasFlag(AssemblySearchModes.AssemblyName))
+            if (info == null && modes.HasFlag(AssemblySearchModes.AssemblyName))
             {
                 var files = directory.GetFileSystemInfos("*.dll", SearchOption.AllDirectories)
-                    .Where(f => (search.HasFlag(AssemblySearchModes.FileName) && !filtered.Any(t => t.Name.Equals(f.Name))) || !search.HasFlag(AssemblySearchModes.FileName)).ToArray();
+                    .Where(f => (modes.HasFlag(AssemblySearchModes.FileName) && !filtered.Any(t => t.Name.Equals(f.Name))) || !modes.HasFlag(AssemblySearchModes.FileName)).ToArray();
                 info = this.ResolveAssembly(module, name, files);
             }
             return info;
@@ -162,7 +161,8 @@ namespace Nugety
                     try
                     {
                         var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
-                        if (assemblyName.ToString().Equals(name.ToString()))
+                        var compare = name.Version == null && name.CultureInfo == null ? assemblyName.Name : name.ToString();
+                        if (compare.Equals(name.ToString()))
                         {
                             var info = module.ModuleProvider.LoadAssembly(module, assemblyName);
                             if (info != null) return info;

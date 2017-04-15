@@ -35,7 +35,7 @@ namespace Nugety
 
         Type GetModuleInitializer(Assembly assembly, Type initialiser);
 
-        IEnumerable<AssemblyName> AssembliesFailedToResolve { get; }
+        IEnumerable<AssemblyLoadItem> AssemblyResolveHistory { get; }
 
         IEnumerable<ModuleInfo> Modules { get; }
 

@@ -31,13 +31,10 @@ namespace Nugety
 
         public AppDomain Domain { get; }
 
-        private readonly Collection<AssemblyName> assembliesFailedToResolve = new Collection<AssemblyName>();
+        private readonly List<AssemblyLoadItem> assemblyResolveHistory = new List<AssemblyLoadItem>();
 
-        public IEnumerable<AssemblyName> AssembliesFailedToResolve => this.assembliesFailedToResolve;
-
-        private readonly Collection<AssemblyName> resolveCalledForAssemblies = new Collection<AssemblyName>();
-
-        public IEnumerable<AssemblyName> ResolveCalledForAssemblies => this.resolveCalledForAssemblies;
+        public IEnumerable<AssemblyLoadItem> AssemblyResolveHistory => this.assemblyResolveHistory;
+        
 
         public IEnumerable<ModuleInfo> Modules => this._modules;
 
@@ -174,14 +171,18 @@ namespace Nugety
                 this.OnAssemblyResolve(cancelArgs);
                 if (!cancelArgs.Cancel)
                 {
-                    if (!this.HasResolveBeenCalled(name))
+                    var item = this.AssemblyResolveHistory.FirstOrDefault(i => i.Name.FullName == name.FullName);
+                    if (item == null)
                     {
-                        this.AddToResolveCalled(name);
-
+                        item = new AssemblyLoadItem(name);
+                        this.assemblyResolveHistory.Add(item);
                         Debug.WriteLine($"Resolve Assembly '{name.FullName}'");
 
                         AssemblyInfo assemblyInfo = null;
-                        if (this.Options.AssemblySearchModes.HasFlag(AssemblySearchModes.SearchCatalog)) assemblyInfo = this.ResolveAssemblyFromModules(name);
+                        if (this.Options.AssemblySearchModes.HasFlag(AssemblySearchModes.SearchCatalog))
+                        {
+                            assemblyInfo = this.ResolveAssemblyFromModules(name);
+                        }
                         if (assemblyInfo != null && assemblyInfo.Module != null)
                         {
                             Debug.WriteLine($"Assembly '{name.FullName}' found in Module '{assemblyInfo.Module.Name}' at location '{assemblyInfo.Location}'");
@@ -199,70 +200,62 @@ namespace Nugety
                             var args = new AssemblyResolvedEventArgs(name, assemblyInfo.Module, assemblyInfo);
                             this.OnAssemblyResolved(args);
 
-                            return assemblyInfo.Assembly;
+                            item.Assembly = assemblyInfo.Assembly;
+                            Debug.WriteLine($"Cannot Resolve Assembly '{name.FullName}'");
                         }
-
-                        Debug.WriteLine($"Cannot Resolve Assembly '{name.FullName}'");
-                        this.AddToResolveFailed(name);
                     }
-                    return null;
+                    return item.Assembly;
                 }
                 return cancelArgs.Assembly;
             }
-        }
-
-        protected virtual bool HasResolveFailed(AssemblyName name)
-        {
-            return this.AssembliesFailedToResolve.Any(n => n.FullName.Equals(name.FullName));
-        }
-
-        protected virtual void AddToResolveFailed(AssemblyName name)
-        {
-            this.assembliesFailedToResolve.Add(name);
-        }
-
-        protected virtual bool HasResolveBeenCalled(AssemblyName name)
-        {
-            return this.ResolveCalledForAssemblies.Any(n => n.FullName.Equals(name.FullName));
-        }
-
-        protected virtual void AddToResolveCalled(AssemblyName name)
-        {
-            this.resolveCalledForAssemblies.Add(name);
         }
 
         public virtual AssemblyInfo ResolveAssemblyWithRedirect(AssemblyName name)
         {
             lock (_lock)
             {
-                var redirectName = new AssemblyName(name.Name);
-                var assembly = Assembly.Load(redirectName);
-                if (assembly != null)
+                if (name.Name != name.FullName)
                 {
-                    return new AssemblyInfo(assembly);
-                }
-                else
-                {
-                    return this.ResolveAssemblyFromModules(redirectName);
+
+                    var redirectName = new AssemblyName(name.Name);
+                    var assembly = Assembly.Load(redirectName);
+                    if (assembly != null)
+                    {
+                        return new AssemblyInfo(assembly);
+                    }
+                    else
+                    {
+                        return this.ResolveAssemblyFromModules(redirectName);
+                    }
                 }
             }
+            return null;
         }
 
         public virtual AssemblyInfo ResolveAssemblyFromModules(AssemblyName name)
         {
             lock (_lock)
             {
-
-                foreach (var module in this.Modules.Where(m => m.AllowAssemblyResolve))
+                var search = this.Options.AssemblySearchModes;
+                AssemblyInfo assemblyInfo = null;
+                if (search.HasFlag(AssemblySearchModes.FileName))
                 {
-                    var assemblyInfo = module.ModuleProvider.ResolveAssembly(module, name);
-                    if (assemblyInfo != null)
+                    foreach (var module in this.Modules.Where(m => m.AllowAssemblyResolve))
                     {
-                        return assemblyInfo;
+                        assemblyInfo = module.ModuleProvider.ResolveAssembly(module, name, AssemblySearchModes.FileName);
+                        if (assemblyInfo != null) break;
                     }
                 }
+                if (assemblyInfo == null && search.HasFlag(AssemblySearchModes.AssemblyName))
+                {
+                    foreach (var module in this.Modules.Where(m => m.AllowAssemblyResolve))
+                    {
+                        assemblyInfo = module.ModuleProvider.ResolveAssembly(module, name, AssemblySearchModes.AssemblyName);
+                        if (assemblyInfo != null) break;
+                    }
+                }
+                return assemblyInfo;
             }
-            return null;
         }
 
         //public virtual INugetyCatalogProvider UseLoggerFactory(ILoggerFactory loggerFactory)
