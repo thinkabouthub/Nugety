@@ -175,39 +175,47 @@ namespace Nugety
                     if (item == null)
                     {
                         item = new AssemblyLoadItem(name);
-                        this.assemblyResolveHistory.Add(item);
-                        Debug.WriteLine($"Resolve Assembly '{name.FullName}'");
+                        try
+                        {
+                            this.assemblyResolveHistory.Add(item);
+                            Debug.WriteLine($"Resolve Assembly '{name.FullName}'");
 
-                        AssemblyInfo assemblyInfo = null;
-                        if (this.Options.AssemblySearchModes.HasFlag(AssemblySearchModes.SearchCatalog))
-                        {
-                            assemblyInfo = this.ResolveAssemblyFromModules(name);
-                        }
-                        if (assemblyInfo != null && assemblyInfo.Module != null)
-                        {
-                            Debug.WriteLine($"Assembly '{name.FullName}' found in Module '{assemblyInfo.Module.Name}' at location '{assemblyInfo.Location}'");
-                        }
-                        if (assemblyInfo == null && this.Options.AssemblySearchModes.HasFlag(AssemblySearchModes.OptimisticRedirect))
-                        {
-                            assemblyInfo = this.ResolveAssemblyWithRedirect(name);
-                            if (assemblyInfo != null)
+                            AssemblyInfo assemblyInfo = null;
+                            if (this.Options.AssemblySearchModes.HasFlag(AssemblySearchModes.SearchCatalog))
                             {
-                                Debug.WriteLine($"Assembly '{name.FullName}' found using Optimistic Redirect at location '{assemblyInfo.Location}'");
+                                assemblyInfo = this.ResolveAssemblyFromModules(name);
+                            }
+                            if (assemblyInfo != null && assemblyInfo.Module != null)
+                            {
+                                Debug.WriteLine($"Assembly '{name.FullName}' found in Module '{assemblyInfo.Module.Name}' at location '{assemblyInfo.Location}'");
+                            }
+                            if (assemblyInfo == null && this.Options.AssemblySearchModes.HasFlag(AssemblySearchModes.OptimisticRedirect))
+                            {
+                                assemblyInfo = this.ResolveAssemblyWithRedirect(name);
+                                if (assemblyInfo != null)
+                                {
+                                    Debug.WriteLine($"Assembly '{name.FullName}' found using Optimistic Redirect at location '{assemblyInfo.Location}'");
+                                }
+                            }
+                            if (assemblyInfo != null && assemblyInfo.Assembly != null)
+                            {
+                                var args = new AssemblyResolvedEventArgs(name, assemblyInfo.Module, assemblyInfo);
+                                this.OnAssemblyResolved(args);
+
+                                item.Assembly = assemblyInfo.Assembly;
+                                Debug.WriteLine($"Cannot Resolve Assembly '{name.FullName}'");
                             }
                         }
-                        if (assemblyInfo != null && assemblyInfo.Assembly != null)
+                        catch (Exception ex)
                         {
-                            var args = new AssemblyResolvedEventArgs(name, assemblyInfo.Module, assemblyInfo);
-                            this.OnAssemblyResolved(args);
-
-                            item.Assembly = assemblyInfo.Assembly;
-                            Debug.WriteLine($"Cannot Resolve Assembly '{name.FullName}'");
+                            item.Error = ex;
+                            throw;
                         }
                     }
                     return item.Assembly;
                 }
                 return cancelArgs.Assembly;
-            }
+            }       
         }
 
         public virtual AssemblyInfo ResolveAssemblyWithRedirect(AssemblyName name)

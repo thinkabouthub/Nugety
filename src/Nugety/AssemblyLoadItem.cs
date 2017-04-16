@@ -16,5 +16,7 @@ namespace Nugety
         public AssemblyName Name { get; set; }
 
         public Assembly Assembly { get; set; }
+
+        public Exception Error { get; set; }
     }
 }
