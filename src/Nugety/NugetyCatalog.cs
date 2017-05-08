@@ -181,7 +181,7 @@ namespace Nugety
                             Debug.WriteLine($"Resolve Assembly '{name.FullName}'");
 
                             AssemblyInfo assemblyInfo = null;
-                            if (this.Options.ProbingModes.HasValue)
+                            if (this.Options.ProbingModes.HasValue) 
                             {
                                 assemblyInfo = this.ResolveAssemblyFromModules(name);
 
