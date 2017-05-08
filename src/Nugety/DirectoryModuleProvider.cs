@@ -132,21 +132,21 @@ namespace Nugety
             return assembly != null ? new AssemblyInfo(assembly, module) : null;
         }
 
-        public virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name, AssemblySearchModes modes)
+        public virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name, AssemblyProbingModes modes)
         {
             AssemblyInfo info = null;
 
             var directory = new DirectoryInfo(Path.GetDirectoryName(module.Location));
             var filtered = directory.GetFileSystemInfos(string.Concat(name.Name, ".dll"), SearchOption.AllDirectories);
 
-            if (modes.HasFlag(AssemblySearchModes.FileName))
+            if (modes.HasFlag(AssemblyProbingModes.Optimistic))
             {
                 info = this.ResolveAssembly(module, name, filtered);
             }
-            if (info == null && modes.HasFlag(AssemblySearchModes.AssemblyName))
+            if (info == null && modes.HasFlag(AssemblyProbingModes.Pessimistic))
             {
                 var files = directory.GetFileSystemInfos("*.dll", SearchOption.AllDirectories)
-                    .Where(f => (modes.HasFlag(AssemblySearchModes.FileName) && !filtered.Any(t => t.Name.Equals(f.Name))) || !modes.HasFlag(AssemblySearchModes.FileName)).ToArray();
+                    .Where(f => (modes.HasFlag(AssemblyProbingModes.Optimistic) && !filtered.Any(t => t.Name.Equals(f.Name))) || !modes.HasFlag(AssemblyProbingModes.Optimistic)).ToArray();
                 info = this.ResolveAssembly(module, name, files);
             }
             return info;

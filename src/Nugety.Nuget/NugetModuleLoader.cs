@@ -26,7 +26,7 @@ namespace Nugety
             return null;
         }
 
-        public virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name, AssemblySearchModes modes)
+        public virtual AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name, AssemblyProbingModes modes)
         {
             return null;
         }

@@ -11,6 +11,6 @@ namespace Nugety
 
         AssemblyInfo LoadAssembly(ModuleInfo module, AssemblyName name);
 
-        AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name, AssemblySearchModes modes);
+        AssemblyInfo ResolveAssembly(ModuleInfo module, AssemblyName name, AssemblyProbingModes modes);
     }
 }

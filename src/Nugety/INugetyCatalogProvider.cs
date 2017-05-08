@@ -5,12 +5,11 @@ using System.Reflection;
 namespace Nugety
 {
     [Flags]
-    public enum AssemblySearchModes
+    public enum AssemblyProbingModes
     {
-        SearchCatalog = 1,
-        FileName = 2,
-        AssemblyName = 4,
-        OptimisticRedirect = 8
+        Optimistic = 1,
+        Pessimistic = 2,
+        OptimisticRedirect = 4
     }
 
     public interface INugetyCatalogProvider : IDisposable
