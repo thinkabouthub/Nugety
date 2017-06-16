@@ -11,18 +11,17 @@ namespace Nugety.Project.Dependencies
     {
         static void Main(string[] args)
         {
+            var options = new Options();
+            var valid = CommandLine.Parser.Default.ParseArguments(args, options);
             //TODO maybe put something in here that allows the user to do a /help switch
 
-            if (args.Length == 3)
+            if (valid)
             {
                 Console.WriteLine("Beginning Dependency Processing.");
-
-                var source = args[0];
-                var target = args[1];
-                var mainAppBinFolder = args[2];
-                if (Directory.Exists(source) && Directory.Exists(mainAppBinFolder))
+                
+                if (Directory.Exists(options.Source) && Directory.Exists(options.MainAppBinFolder))
                 {
-                    DependencyUtil.ProcessDependencies(source, target, mainAppBinFolder);
+                    DependencyUtil.ProcessDependencies(options.Source, options.Target, options.MainAppBinFolder);
                 }
             }
             else
