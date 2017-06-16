@@ -11,14 +11,13 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-	<PackageId>Nugety.Project.Dependencies.DependencyCopy</PackageId>
+    <PackageId>Nugety.Project.Dependencies.DependencyCopy</PackageId>
     <Description>Dependency Copy Utility</Description>
-	<PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+    <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <PackageIconUrl>https://raw.githubusercontent.com/thinkabouthub/NugetyCore/master/nugety_icon.png</PackageIconUrl>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DirectoryUtil.cs" />
+    <Compile Include="DependencyUtil.cs" />
     <Compile Include="GacUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nugety.Project.Dependencies
 {
-    public static class DirectoryUtil
+    public static class DependencyUtil
     {
         /// <summary>
         /// Begins the Process files functionality, 
@@ -20,6 +20,7 @@ namespace Nugety.Project.Dependencies
             if (!Directory.Exists(target))
             {
                 Directory.CreateDirectory(target);
+                Console.WriteLine("Directory Created" + target);
             }
 
             ProcessDirectory(source, target, mainAppBinFolder);
@@ -48,6 +49,7 @@ namespace Nugety.Project.Dependencies
                 {
                     assemblyName = System.Reflection.AssemblyName.GetAssemblyName(fi.FullName).ToString();
                     inGAC = GacUtil.IsAssemblyInGAC(assemblyName);
+                    
                 }
 
                 //if not in the GAC, is the file already in the mainAppBinFolder?
@@ -57,6 +59,7 @@ namespace Nugety.Project.Dependencies
                     {
                         //if not in either of the previous locations, then copy to target
                         fi.CopyTo(Path.Combine(targetInfo.FullName, fi.Name), true);
+                        Console.WriteLine("File Copied from " + fi.FullName + " to " + targetInfo.FullName);
                     }
                 }
             }
