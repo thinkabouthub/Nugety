@@ -19,7 +19,7 @@ namespace Nugety.Project.Dependencies
                 var mainAppBinFolder = args[2];
                 if (Directory.Exists(source) && Directory.Exists(mainAppBinFolder))
                 {
-                    FileUtil.ProcessFiles(source, target, mainAppBinFolder);
+                    DirectoryUtil.ProcessDependencies(source, target, mainAppBinFolder);
                 }
             }
             else

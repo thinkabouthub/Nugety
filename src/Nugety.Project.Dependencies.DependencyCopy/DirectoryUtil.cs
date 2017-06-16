@@ -7,9 +7,15 @@ using System.Threading.Tasks;
 
 namespace Nugety.Project.Dependencies
 {
-    public static class FileUtil
+    public static class DirectoryUtil
     {
-        public static void ProcessFiles(string source, string target, string mainAppBinFolder)
+        /// <summary>
+        /// Begins the Process files functionality, 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="mainAppBinFolder"></param>
+        public static void ProcessDependencies(string source, string target, string mainAppBinFolder)
         {
             if (!Directory.Exists(target))
             {
@@ -19,6 +25,12 @@ namespace Nugety.Project.Dependencies
             ProcessDirectory(source, target, mainAppBinFolder);
         }
 
+        /// <summary>
+        /// Process the directory, recursively, to make sure everything gets copied to the target that needs to.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="mainAppBinFolder"></param>
         public static void ProcessDirectory(string source, string target, string mainAppBinFolder)
         {
             var sourceInfo = new DirectoryInfo(source);
