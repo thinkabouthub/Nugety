@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.AspNetCore", "Nugety
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Autofac", "Nugety.Autofac\Nugety.Autofac.csproj", "{FF3ADB85-F94E-431A-917E-BD8F9755B473}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nugety.DependencyCopy", "Nugety.Project.Dependencies.DependencyCopy\Nugety.DependencyCopy.csproj", "{8E16762C-5553-4C74-AE62-D6AF146D7C1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.DependencyCopy", "Nugety.DependencyCopy\Nugety.DependencyCopy.csproj", "{82EC07BF-0536-4484-B686-239FF87D3C89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{FF3ADB85-F94E-431A-917E-BD8F9755B473}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF3ADB85-F94E-431A-917E-BD8F9755B473}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF3ADB85-F94E-431A-917E-BD8F9755B473}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E16762C-5553-4C74-AE62-D6AF146D7C1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E16762C-5553-4C74-AE62-D6AF146D7C1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E16762C-5553-4C74-AE62-D6AF146D7C1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E16762C-5553-4C74-AE62-D6AF146D7C1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82EC07BF-0536-4484-B686-239FF87D3C89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82EC07BF-0536-4484-B686-239FF87D3C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82EC07BF-0536-4484-B686-239FF87D3C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82EC07BF-0536-4484-B686-239FF87D3C89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
