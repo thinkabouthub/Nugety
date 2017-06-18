@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.AspNetCore", "Nugety
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nugety.Autofac", "Nugety.Autofac\Nugety.Autofac.csproj", "{FF3ADB85-F94E-431A-917E-BD8F9755B473}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nugety.Project.Dependencies.DependencyCopy", "Nugety.Project.Dependencies.DependencyCopy\Nugety.Project.Dependencies.DependencyCopy.csproj", "{8E16762C-5553-4C74-AE62-D6AF146D7C1B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nugety.DependencyCopy", "Nugety.Project.Dependencies.DependencyCopy\Nugety.DependencyCopy.csproj", "{8E16762C-5553-4C74-AE62-D6AF146D7C1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
