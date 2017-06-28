@@ -6,9 +6,12 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <Version>1.0.0</Version>
     <AssemblyTitle>Nugety.DependencyCopy</AssemblyTitle>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Company>ThinkAbout</Company>
     <Authors>Clare Moore, Patrick Nolan</Authors>
+    <PackageIconUrl>https://raw.githubusercontent.com/thinkabouthub/NugetyCore/master/nugety_icon.png</PackageIconUrl>
+    <PackageTags>nugety;nugety.autofac;nugetydependencycopy;c#;dotnetcore</PackageTags>
+    <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
