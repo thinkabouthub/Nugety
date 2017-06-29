@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nugety.Project.Dependencies
+namespace Nugety.DependencyCopy
 {
     class Program
     {

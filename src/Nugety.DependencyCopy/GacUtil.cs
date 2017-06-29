@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Nugety.Project.Dependencies
+namespace Nugety.DependencyCopy
 {
     public static class GacUtil
     {
