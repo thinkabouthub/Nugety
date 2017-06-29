@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputType>exe</OutputType>
+  </PropertyGroup>
+
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <AssemblyName>Nugety.DependencyCopy</AssemblyName>
@@ -10,8 +14,11 @@
     <Company>ThinkAbout</Company>
     <Authors>Clare Moore, Patrick Nolan</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/thinkabouthub/NugetyCore/master/nugety_icon.png</PackageIconUrl>
-    <PackageTags>nugety;nugety.autofac;nugetydependencycopy;c#;dotnetcore</PackageTags>
+    <PackageTags>nugety;nugetydependencycopy;c#;dotnetcore</PackageTags>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+    <ApplicationIcon />
+    <OutputTypeEx>exe</OutputTypeEx>
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
