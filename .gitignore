@@ -252,3 +252,4 @@ paket-files/
 *.sln.iml
 /src/Nugety.Tests.Module
 /src/Nugety.Console
+/src/Nugety.DependencyCopy/proj file example.txt

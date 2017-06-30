@@ -5,20 +5,23 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <PackageType>DotnetCliTool</PackageType>
     <TargetFramework>net462</TargetFramework>
     <AssemblyName>Nugety.DependencyCopy</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <Version>1.0.0</Version>
     <AssemblyTitle>Nugety.DependencyCopy</AssemblyTitle>
     <IncludeBuiltProjectOutputGroup>true</IncludeBuiltProjectOutputGroup>
+    
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Company>ThinkAbout</Company>
     <Authors>Clare Moore, Patrick Nolan</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/thinkabouthub/NugetyCore/master/nugety_icon.png</PackageIconUrl>
-    <PackageTags>nugety;nugetydependencycopy;c#;dotnetcore</PackageTags>
+    <PackageTags>nugety;nugetydependencycopy;c#</PackageTags>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <ApplicationIcon />
     <OutputTypeEx>exe</OutputTypeEx>
+    
     <StartupObject />
   </PropertyGroup>
 
