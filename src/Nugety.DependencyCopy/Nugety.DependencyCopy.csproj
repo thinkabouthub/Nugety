@@ -20,7 +20,7 @@
     <PackageTags>nugety;nugetydependencycopy;c#</PackageTags>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <ApplicationIcon />
-    <OutputTypeEx>exe</OutputTypeEx>
+    <OutputType>exe</OutputType>
     
     <StartupObject />
   </PropertyGroup>
