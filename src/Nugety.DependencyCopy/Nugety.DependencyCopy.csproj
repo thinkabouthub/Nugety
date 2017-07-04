@@ -4,8 +4,7 @@
     <OutputType>exe</OutputType>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <PackageType>DotnetCliTool</PackageType>
+  <PropertyGroup>    
     <TargetFramework>net462</TargetFramework>
     <AssemblyName>Nugety.DependencyCopy</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
