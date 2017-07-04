@@ -14,7 +14,7 @@
     
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Company>ThinkAbout</Company>
-    <Authors>Clare Moore, Patrick Nolan</Authors>
+    <Authors>Patrick Nolan</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/thinkabouthub/NugetyCore/master/nugety_icon.png</PackageIconUrl>
     <PackageTags>nugety;nugetydependencycopy;c#</PackageTags>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
