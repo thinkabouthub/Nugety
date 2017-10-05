@@ -99,9 +99,6 @@ namespace Nugety
                     !string.IsNullOrEmpty(Catalog.Options.ModuleNameFilterPattern)
                         ? Catalog.Options.ModuleNameFilterPattern
                         : "*", SearchOption.TopDirectoryOnly);
-                var notFound = name.Where(n => !directories.Any(d => d.Name == n)).ToList();
-                if (notFound.Any()) throw new DirectoryNotFoundException($"Module Directory not found for '{string.Join(",", notFound.ToArray())}'");
-
                 if (name.Length > 0)
                 {
                     foreach (var n in name)
@@ -115,6 +112,8 @@ namespace Nugety
                     foreach (var d in directories) list.Add(d);
                 }
             }
+            var notFound = name.Where(n => !list.Any(d => d.Name == n)).ToList();
+            if (notFound.Any()) throw new DirectoryNotFoundException($"Module Directory not found for '{string.Join(",", notFound.ToArray())}'");
             return list;
         }
 
