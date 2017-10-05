@@ -90,26 +90,30 @@ namespace Nugety
         public virtual IEnumerable<DirectoryInfo> GetModuleDirectories(params string[] name)
         {
             var list = new Collection<DirectoryInfo>();
-            if (!Directory.Exists(Options.Location)) throw new DirectoryNotFoundException($"Directory Catalog '{Options.Location}' does not exist");
+            foreach (var location in this.Options.Directories)
+            {
+                if (!Directory.Exists(location)) throw new DirectoryNotFoundException($"Directory Catalog '{Options.Directories}' does not exist");
 
-            var directory = new DirectoryInfo(Options.Location);
-            var directories = directory.GetDirectories(
+                var directory = new DirectoryInfo(location);
+                var directories = directory.GetDirectories(
                     !string.IsNullOrEmpty(Catalog.Options.ModuleNameFilterPattern)
                         ? Catalog.Options.ModuleNameFilterPattern
                         : "*", SearchOption.TopDirectoryOnly);
-            var notFound = name.Where(n => !directories.Any(d => d.Name == n)).ToList();
-            if (notFound.Any()) throw new DirectoryNotFoundException($"Module Directory not found for '{string.Join(",", notFound.ToArray())}'");
-            if (name.Length > 0)
-            {
-                foreach (var n in name)
+                var notFound = name.Where(n => !directories.Any(d => d.Name == n)).ToList();
+                if (notFound.Any()) throw new DirectoryNotFoundException($"Module Directory not found for '{string.Join(",", notFound.ToArray())}'");
+
+                if (name.Length > 0)
                 {
-                    var namedDirectory = directories.FirstOrDefault(d => d.Name == n);
-                    if (namedDirectory != null) list.Add(namedDirectory);
+                    foreach (var n in name)
+                    {
+                        var namedDirectory = directories.FirstOrDefault(d => d.Name == n);
+                        if (namedDirectory != null) list.Add(namedDirectory);
+                    }
                 }
-            }
-            else
-            {
-                foreach (var d in directories) list.Add(d);
+                else
+                {
+                    foreach (var d in directories) list.Add(d);
+                }
             }
             return list;
         }

@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace Nugety
 {
@@ -119,7 +118,12 @@ namespace Nugety
 
         public virtual IDirectoryModuleProvider FromDirectory(string location = "Nugety")
         {
-            return new DirectoryModuleProvider(this).Options.SetLocation(location);
+            return new DirectoryModuleProvider(this).Options.SetDirectory(location);
+        }
+
+        public virtual IDirectoryModuleProvider FromDirectories(params string[] location)
+        {
+            return new DirectoryModuleProvider(this).Options.SetDirectory(location);
         }
 
         public event EventHandler<AssemblyResolveCancelEventArgs> AssemblyResolve;
