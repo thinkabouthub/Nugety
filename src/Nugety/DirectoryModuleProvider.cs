@@ -92,7 +92,7 @@ namespace Nugety
             var list = new Collection<DirectoryInfo>();
             foreach (var location in this.Options.Directories)
             {
-                if (!Directory.Exists(location)) throw new DirectoryNotFoundException($"Directory Catalog '{Options.Directories}' does not exist");
+                if (!Directory.Exists(location)) throw new DirectoryNotFoundException($"Directory Catalog '{location}' does not exist");
 
                 var directory = new DirectoryInfo(location);
                 var directories = directory.GetDirectories(
