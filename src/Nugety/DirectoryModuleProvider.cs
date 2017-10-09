@@ -36,7 +36,7 @@ namespace Nugety
 
             if (this.Options.IncludeExecutingDirectory)
             {
-                var info = this.GetModules<T>(new DirectoryInfo(Path.GetDirectoryName(this.GetType().Assembly.Location)));
+                var info = this.GetModules<T>(new DirectoryInfo(Environment.CurrentDirectory));
                 foreach (var i in info)
                 {
                     i.AllowAssemblyResolve = false;
@@ -117,14 +117,19 @@ namespace Nugety
         public virtual IEnumerable<DirectoryInfo> GetModuleDirectories(params string[] name)
         {
             var list = new Collection<DirectoryInfo>();
-            if (!Directory.Exists(this.Options.Directory)) throw new DirectoryNotFoundException($"Directory Catalog '{this.Options.Directory}' does not exist");
-
-            var directory = new DirectoryInfo(this.Options.Directory);
-            var directories = directory.GetDirectories(
-                !string.IsNullOrEmpty(Catalog.Options.ModuleNameFilterPattern)
-                    ? Catalog.Options.ModuleNameFilterPattern
-                    : "*", SearchOption.TopDirectoryOnly);
-            foreach (var d in directories) list.Add(d);
+            if (Directory.Exists(this.Options.Directory))
+            {
+                var directory = new DirectoryInfo(this.Options.Directory);
+                var directories = directory.GetDirectories(
+                    !string.IsNullOrEmpty(Catalog.Options.ModuleNameFilterPattern)
+                        ? Catalog.Options.ModuleNameFilterPattern
+                        : "*", SearchOption.TopDirectoryOnly);
+                foreach (var d in directories) list.Add(d);
+            }
+            else
+            {
+                Debug.WriteLine($"Directory Catalog '{this.Options.Directory}' does not exist");
+            }
             return list;
         }
 
