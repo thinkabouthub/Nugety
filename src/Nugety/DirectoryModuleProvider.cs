@@ -23,26 +23,45 @@ namespace Nugety
 
         public virtual IEnumerable<ModuleInfo<T>> GetModules<T>(params string[] name)
         {
-            return GetFromDirectory<T>(name);
-        }
-
-        protected virtual IEnumerable<ModuleInfo<T>> GetFromDirectory<T>(params string[] name)
-        {
             Debug.WriteLine($"Resolving Modules From Directory '{string.Join(",", name)}'");
 
             var modules = new List<ModuleInfo<T>>();
             var directories = this.GetModuleDirectories(name);
+
             foreach (var directory in directories)
             {
-                Debug.WriteLine($"Get Module '{directory.FullName}'");
+                var info = this.GetModules<T>(directory);
+                modules.AddRange(info.Where(i => !modules.Any(m => m.ModuleInitialiser.FullName == i.ModuleInitialiser.FullName)));
+            }
 
-                if (!this.Catalog.Modules.Any(m => m.Name == directory.Name))
+            if (this.Options.IncludeExecutingDirectory)
+            {
+                var info = this.GetModules<T>(new DirectoryInfo(Path.GetDirectoryName(this.GetType().Assembly.Location)));
+                foreach (var i in info)
                 {
-                    var module = this.GetUsingFileName<T>(directory);
-                    if (module != null) modules.Add(module);
+                    i.AllowAssemblyResolve = false;
+                }
+                modules.AddRange(info.Where(i => !modules.Any(m => m.ModuleInitialiser.FullName == i.ModuleInitialiser.FullName)));
+            }
+
+            var notFound = name.Where(n => !modules.Any(d => d.Name == n)).ToList();
+            if (notFound.Any()) throw new DirectoryNotFoundException($"Module  not found for '{string.Join(",", notFound.ToArray())}'");
+
+            var sorted = new List<ModuleInfo<T>>();
+            if (name.Length > 0)
+            {
+                foreach (var n in name)
+                {
+                    var module = modules.FirstOrDefault(m => m.Name == n);
+                    if (module != null) sorted.Add(module);
                 }
             }
-            return modules;
+            else
+            {
+                sorted.AddRange(modules);
+            }
+            sorted.ForEach(this.Catalog.AddModule);
+            return sorted;
         }
 
         public virtual string ParseModuleFileNameFilter(string filter)
@@ -62,8 +81,11 @@ namespace Nugety
             return filter;
         }
 
-        protected virtual ModuleInfo<T> GetUsingFileName<T>(DirectoryInfo directory)
+        protected virtual IEnumerable<ModuleInfo<T>> GetModules<T>(DirectoryInfo directory)
         {
+            Debug.WriteLine($"Get Modules '{directory.FullName}'");
+
+            var modules = new Collection<ModuleInfo<T>>();
             var filter = this.ParseModuleFileNameFilter(Catalog.Options.ModuleFileNameFilterPattern);
             foreach (var file in directory.GetFileSystemInfos(!string.IsNullOrEmpty(filter) 
                 ? filter
@@ -77,43 +99,32 @@ namespace Nugety
                     var type = this.Catalog.GetModuleInitializer<T>(info.Assembly);
                     if (type != null)
                     {
-                        var module = new ModuleInfo<T>(this, directory.Name, new AssemblyInfo(info.Assembly), type);
+                        var module = new ModuleInfo<T>(this, this.GetModuleName(type), new AssemblyInfo(info.Assembly), type);
+                        modules.Add(module);
                         Debug.WriteLine($"Module '{module.Name}' Resolved");
-                        this.Catalog.AddModule(module);
-                        return module;
                     }
                 }
             }
-            return null;
+            return modules;
+        }
+
+        protected virtual string GetModuleName(Type type)
+        {
+            var a = type.GetCustomAttribute<NameAttribute>();          
+            return a?.Name ?? type.Name;
         }
 
         public virtual IEnumerable<DirectoryInfo> GetModuleDirectories(params string[] name)
         {
             var list = new Collection<DirectoryInfo>();
-            foreach (var location in this.Options.Directories)
-            {
-                if (!Directory.Exists(location)) throw new DirectoryNotFoundException($"Directory Catalog '{location}' does not exist");
+            if (!Directory.Exists(this.Options.Directory)) throw new DirectoryNotFoundException($"Directory Catalog '{this.Options.Directory}' does not exist");
 
-                var directory = new DirectoryInfo(location);
-                var directories = directory.GetDirectories(
-                    !string.IsNullOrEmpty(Catalog.Options.ModuleNameFilterPattern)
-                        ? Catalog.Options.ModuleNameFilterPattern
-                        : "*", SearchOption.TopDirectoryOnly);
-                if (name.Length > 0)
-                {
-                    foreach (var n in name)
-                    {
-                        var namedDirectory = directories.FirstOrDefault(d => d.Name == n);
-                        if (namedDirectory != null) list.Add(namedDirectory);
-                    }
-                }
-                else
-                {
-                    foreach (var d in directories) list.Add(d);
-                }
-            }
-            var notFound = name.Where(n => !list.Any(d => d.Name == n)).ToList();
-            if (notFound.Any()) throw new DirectoryNotFoundException($"Module Directory not found for '{string.Join(",", notFound.ToArray())}'");
+            var directory = new DirectoryInfo(this.Options.Directory);
+            var directories = directory.GetDirectories(
+                !string.IsNullOrEmpty(Catalog.Options.ModuleNameFilterPattern)
+                    ? Catalog.Options.ModuleNameFilterPattern
+                    : "*", SearchOption.TopDirectoryOnly);
+            foreach (var d in directories) list.Add(d);
             return list;
         }
 

@@ -4,19 +4,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Nugety.Tests.Common;
-using Nugety.Tests.Dependency3;
 
-namespace Nugety.Tests.Module3
+namespace Nugety.Tests.Module1
 {
-    public class ModuleInitializer : Module, IModuleInitializer, IDependencyVersion
+    [Name("Module1Initializer")]
+    public class Module1Initializer : Module, IModuleInitializer
     {
-        public Type GetDependencyType()
-        {
-            var test = new Class1();
-            return test.GetType();
-        }
-
         public bool ConfigureServices(IServiceCollection services, IMvcBuilder builder, IServiceProvider provider = null)
         {
             return true;

@@ -9,7 +9,8 @@ using Nugety.Tests.Dependency2;
 
 namespace Nugety.Tests.Module2
 {
-    public class ModuleInitializer : Module, IModuleInitializer, IDependencyVersion
+    [Name("Module2Initializer")]
+    public class Module2Initializer : Module, IModuleInitializer, IDependencyVersion
     {
         public Type GetDependencyType()
         {

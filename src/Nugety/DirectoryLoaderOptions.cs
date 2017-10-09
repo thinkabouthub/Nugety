@@ -12,18 +12,19 @@ namespace Nugety
 
         public IDirectoryModuleProvider Loader { get; }
 
-        private Collection<string> _directories = new Collection<string>();
-        public IEnumerable<string> Directories 
+        public string Directory { get; protected set; }
+
+        public bool IncludeExecutingDirectory { get; protected set; }
+
+        public virtual IDirectoryModuleProvider SetDirectory(string directory)
         {
-            get { return this._directories; }
+            this.Directory = directory;
+            return this.Loader;
         }
 
-        public IDirectoryModuleProvider SetDirectory(params string[] directory)
+        public virtual IDirectoryModuleProvider SetIncludeExecutingDirectory(bool include)
         {
-            foreach (var d in directory)
-            {
-                this._directories.Add(d);
-            }
+            this.IncludeExecutingDirectory = include;
             return this.Loader;
         }
     }

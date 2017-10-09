@@ -15,7 +15,7 @@ namespace Nugety.Tests
                 var modules = catalog
                     .Options.SetModuleFileNameFilter("*Module5.dll")
                     .FromDirectory()
-                    .GetModules<IModuleInitializer>("Module5");
+                    .GetModules<IModuleInitializer>("Module5Initializer");
 
                 var instances = modules.Load();
 

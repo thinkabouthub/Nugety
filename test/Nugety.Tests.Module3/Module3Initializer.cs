@@ -1,18 +1,25 @@
 ﻿using System;
-using System.Configuration;
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Nugety.Tests.Common;
+using Nugety.Tests.Dependency3;
 
-namespace Nugety.Tests.Module5
+namespace Nugety.Tests.Module3
 {
-    public class ModuleInitializer : Autofac.Module, IModuleInitializer
+    [Name("Module3Initializer")]
+    public class Module3Initializer : Module, IModuleInitializer, IDependencyVersion
     {
+        public Type GetDependencyType()
+        {
+            var test = new Class1();
+            return test.GetType();
+        }
+
         public bool ConfigureServices(IServiceCollection services, IMvcBuilder builder, IServiceProvider provider = null)
         {
-            var test = ConfigurationManager.GetSection("unity");
             return true;
         }
 

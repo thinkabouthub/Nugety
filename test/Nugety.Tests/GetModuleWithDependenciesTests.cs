@@ -17,7 +17,7 @@ namespace Nugety.Tests
                 {
                     var modules = catalog
                         .FromDirectory()
-                        .GetModules<IModuleInitializer>("Module2 without dependency2");
+                        .GetModules<IModuleInitializer>("Module2Initializer");
 
                     var instance = modules.Load().OfType<IDependencyVersion>().FirstOrDefault();
                     var type = instance.GetDependencyType();
@@ -32,11 +32,11 @@ namespace Nugety.Tests
             {
                 var modules = catalog
                     .FromDirectory()
-                    .GetModules<IModuleInitializer>("Module3 with dependency3 v0");
+                    .GetModules<IModuleInitializer>("Module3Initializer");
 
                 var instances = modules.Load();
 
-                Assert.True(modules.Any(m => m.Name == "Module3 with dependency3 v0"));
+                Assert.True(modules.Any(m => m.Name == "Module3Initializer"));
                 Assert.True(instances.OfType<IModuleInitializer>().Any());
             }
         }
@@ -48,7 +48,7 @@ namespace Nugety.Tests
             {
                 var modules = catalog
                     .FromDirectory()
-                    .GetModules<IModuleInitializer>("Module3 with dependency3 v0", "Module4 with dependency3 v1");
+                    .GetModules<IModuleInitializer>("Module3Initializer", "Module4Initializer");
 
                 Assert.True(modules.Count() == 2);
                 var instances = modules.Load().OfType<IDependencyVersion>();

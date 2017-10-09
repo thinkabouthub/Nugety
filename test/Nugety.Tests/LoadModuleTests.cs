@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace Nugety.Tests
@@ -14,12 +15,12 @@ namespace Nugety.Tests
         {
             using (var catalog = new NugetyCatalog())
             {
-                var modules = catalog
-                    .FromDirectory()
-                    .GetModules<InvalidInterface>("Module1");
-
-                var instances = modules.Load();
-                Assert.True(!instances.OfType<InvalidInterface>().Any());
+                var exception = Assert.Throws<DirectoryNotFoundException>(() =>
+                {
+                    var modules = catalog
+                        .FromDirectory()
+                        .GetModules<InvalidInterface>("Module1");
+                });
             }
         }
 
@@ -30,7 +31,7 @@ namespace Nugety.Tests
             {
                 var modules = catalog
                     .FromDirectory()
-                    .GetModules<IModuleInitializer>("Module1");
+                    .GetModules<IModuleInitializer>("Module1Initializer");
 
                 var instances = modules.Load();
                 Assert.True(instances.OfType<IModuleInitializer>().Any());

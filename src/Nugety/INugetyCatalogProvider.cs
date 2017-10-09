@@ -30,7 +30,7 @@ namespace Nugety
 
         IDirectoryModuleProvider FromDirectory(string location = "Nugety");
 
-        IDirectoryModuleProvider FromDirectories(params string[] location);
+        IDirectoryModuleProvider FromDirectory(bool includeExecutingDirectory, string location = "Nugety");
 
         Type GetModuleInitializer<T>(Assembly assembly);
 

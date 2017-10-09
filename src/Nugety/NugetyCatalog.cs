@@ -96,10 +96,13 @@ namespace Nugety
                     type = assembly.ExportedTypes.FirstOrDefault(t => t == initialiser);
                 }
                 if (type != null)
+                {
                     Debug.WriteLine($"Module Initializer '{type}' of type '{initialiser}' found in Assembly '{assembly}'");
+                }
                 else
+                {
                     Debug.WriteLine($"Module Initializer of type '{initialiser}' not found in Assembly '{assembly}'");
-
+                }
             }
             catch (ReflectionTypeLoadException)
             {
@@ -121,9 +124,12 @@ namespace Nugety
             return new DirectoryModuleProvider(this).Options.SetDirectory(location);
         }
 
-        public virtual IDirectoryModuleProvider FromDirectories(params string[] location)
+        public virtual IDirectoryModuleProvider FromDirectory(bool includeExecutingDirectory, string location = "Nugety")
         {
-            return new DirectoryModuleProvider(this).Options.SetDirectory(location);
+            var provider = new DirectoryModuleProvider(this);
+            provider.Options.SetDirectory(location);
+            provider.Options.SetIncludeExecutingDirectory(includeExecutingDirectory);
+            return provider;
         }
 
         public event EventHandler<AssemblyResolveCancelEventArgs> AssemblyResolve;

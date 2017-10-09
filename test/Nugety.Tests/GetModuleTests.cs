@@ -12,12 +12,13 @@ namespace Nugety.Tests
         {
             using (var catalog = new NugetyCatalog())
             {
-                var modules = catalog
-                    .Options.SetModuleFileNameFilter("*Invalid.dll")
-                    .FromDirectory()
-                    .GetModules<IModuleInitializer>("Module1");
-
-                Assert.True(!modules.Any());
+                var exception = Assert.Throws<DirectoryNotFoundException>(() =>
+                {
+                    var modules = catalog
+                        .Options.SetModuleFileNameFilter("*Invalid.dll")
+                        .FromDirectory()
+                        .GetModules<IModuleInitializer>("Module1Initializer");
+                });
             }
         }
 
@@ -29,9 +30,9 @@ namespace Nugety.Tests
                 var modules = catalog
                     .Options.SetModuleFileNameFilter("*Module1.dll")
                     .FromDirectory()
-                    .GetModules<IModuleInitializer>("Module1");
+                    .GetModules<IModuleInitializer>("Module1Initializer");
 
-                Assert.True(modules.Any(m => m.Name == "Module1"));
+                Assert.True(modules.Any(m => m.Name == "Module1Initializer"));
             }
         }
 
@@ -42,12 +43,12 @@ namespace Nugety.Tests
             {
                 var modules = catalog.GetMany
                 (
-                    c => c.FromDirectory().GetModules<IModuleInitializer>("Module1"),
-                    c => c.FromDirectory().GetModules<IModuleInitializer>("Module3 with dependency3 v0")
+                    c => c.FromDirectory().GetModules<IModuleInitializer>("Module1Initializer"),
+                    c => c.FromDirectory().GetModules<IModuleInitializer>("Module3Initializer")
                 );
 
-                Assert.True(modules.Any(m => m.Name == "Module1"));
-                Assert.True(modules.Any(m => m.Name == "Module3 with dependency3 v0"));
+                Assert.True(modules.Any(m => m.Name == "Module1Initializer"));
+                Assert.True(modules.Any(m => m.Name == "Module3Initializer"));
             }
         }
 
@@ -58,9 +59,9 @@ namespace Nugety.Tests
             {
                 var modules = catalog
                     .FromDirectory()
-                    .GetModules<IModuleInitializer>("Module1");
+                    .GetModules<IModuleInitializer>("Module1Initializer");
 
-                var module = modules.FirstOrDefault(m => m.Name == "Module1");
+                var module = modules.FirstOrDefault(m => m.Name == "Module1Initializer");
                 Assert.True(module != null);
                 Assert.NotNull(module.Catalog);
                 Assert.NotNull(module.ModuleInitialiser);
@@ -94,9 +95,9 @@ namespace Nugety.Tests
                     .FromDirectory()
                     .GetModules<IModuleInitializer>();
 
-                Assert.True(modules.Any(m => m.Name == "Module1"));
-                Assert.True(modules.Any(m => m.Name == "Module3 with dependency3 v0"));
-                Assert.True(modules.Any(m => m.Name == "Module2 without dependency2"));
+                Assert.True(modules.Any(m => m.Name == "Module1Initializer"));
+                Assert.True(modules.Any(m => m.Name == "Module2Initializer"));
+                Assert.True(modules.Any(m => m.Name == "Module3Initializer"));
             }
         }
 
@@ -111,7 +112,6 @@ namespace Nugety.Tests
                         .FromDirectory()
                         .GetModules<IModuleInitializer>("InvalidModule1", "InvalidModule2");
                 });
-                Assert.Equal("Module Directory not found for 'InvalidModule1,InvalidModule2'", exception.Message);
             }
         }
 
@@ -124,9 +124,8 @@ namespace Nugety.Tests
                 {
                     var modules = catalog
                         .FromDirectory()
-                        .GetModules<IModuleInitializer>("Module1", "InvalidModule");
+                        .GetModules<IModuleInitializer>("Module1Initializer", "InvalidModule");
                 });
-                Assert.Equal("Module Directory not found for 'InvalidModule'", exception.Message);
             }
         }
 
@@ -137,9 +136,9 @@ namespace Nugety.Tests
             {
                 var modules = catalog
                     .FromDirectory()
-                    .GetModules<IModuleInitializer>("Module1");
+                    .GetModules<IModuleInitializer>("Module1Initializer");
 
-                Assert.True(modules.Any(m => m.Name == "Module1"));
+                Assert.True(modules.Any(m => m.Name == "Module1Initializer"));
             }
         }
 
@@ -167,7 +166,7 @@ namespace Nugety.Tests
                     .FromDirectory()
                     .GetModules<IModuleInitializer>();
 
-                Assert.True(modules.Any(m => m.Name == "Module1"));
+                Assert.True(modules.Any(m => m.Name == "Module1Initializer"));
             }
         }
     }
