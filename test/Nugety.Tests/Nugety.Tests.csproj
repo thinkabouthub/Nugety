@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFrameworks>net461;net462</TargetFrameworks>
     <AssemblyName>Nugety.Tests</AssemblyName>
     <PackageId>Nugety.Tests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
@@ -27,10 +27,10 @@
   </ItemGroup>
   
   <Target Name="PostcompileScript" AfterTargets="Build">
-    <Exec Command="xcopy /f /r /y /i /s &quot;$(MSBuildProjectDirectory)\Nugety&quot; &quot;$(MSBuildProjectDirectory)\bin\Debug\net462\Nugety\&quot;" />
+    <Exec Command="xcopy /f /r /y /i /s &quot;$(MSBuildProjectDirectory)\Nugety&quot; &quot;$(MSBuildProjectDirectory)\bin\Debug\net461\Nugety\&quot;" />
   </Target>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+  <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>

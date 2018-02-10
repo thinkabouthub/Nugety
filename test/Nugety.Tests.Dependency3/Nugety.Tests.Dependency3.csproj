@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFrameworks>net461;net462</TargetFrameworks>
     <AssemblyName>Nugety.Tests.Dependency3</AssemblyName>
     <AssemblyOriginatorKeyFile>../../Nugety.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
@@ -15,7 +15,7 @@
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+  <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>

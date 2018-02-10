@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFrameworks>net461;net462</TargetFrameworks>
     <AssemblyName>Nugety.Tests.Module4</AssemblyName>
     <AssemblyOriginatorKeyFile>../../Nugety.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
@@ -22,7 +22,7 @@
     <PackageReference Include="Autofac" Version="4.6.2" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+  <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
