@@ -104,7 +104,7 @@ namespace Nugety
                     Debug.WriteLine($"Module Initializer of type '{initialiser}' not found in Assembly '{assembly}'");
                 }
             }
-            catch (ReflectionTypeLoadException)
+            catch (ReflectionTypeLoadException ex)
             {
                 if (!this.Options.IgnoreLoaderExceptions) throw;
             }
