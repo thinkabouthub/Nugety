@@ -44,9 +44,6 @@ namespace Nugety
                 modules.AddRange(info.Where(i => !modules.Any(m => m.ModuleInitialiser.FullName == i.ModuleInitialiser.FullName)));
             }
 
-            var notFound = name.Where(n => !modules.Any(d => d.Name == n)).ToList();
-            if (notFound.Any()) throw new DirectoryNotFoundException($"Module  not found for '{string.Join(",", notFound.ToArray())}'");
-
             var sorted = new List<ModuleInfo<T>>();
             if (name.Length > 0)
             {
