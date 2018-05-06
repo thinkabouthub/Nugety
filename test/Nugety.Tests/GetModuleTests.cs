@@ -12,13 +12,14 @@ namespace Nugety.Tests
         {
             using (var catalog = new NugetyCatalog())
             {
-                var exception = Assert.Throws<DirectoryNotFoundException>(() =>
-                {
+                //var exception = Assert.Throws<DirectoryNotFoundException>(() =>
+                //{
                     var modules = catalog
                         .Options.SetModuleFileNameFilter("*Invalid.dll")
                         .FromDirectory()
                         .GetModules<IModuleInitializer>("Module1Initializer");
-                });
+                Assert.True(!modules.Any());
+                //});
             }
         }
 
@@ -106,12 +107,14 @@ namespace Nugety.Tests
         {
             using (var catalog = new NugetyCatalog())
             {
-                var exception = Assert.Throws<DirectoryNotFoundException>(() =>
-                {
+                //var exception = Assert.Throws<DirectoryNotFoundException>(() =>
+                //{
                     var modules = catalog
                         .FromDirectory()
                         .GetModules<IModuleInitializer>("InvalidModule1", "InvalidModule2");
-                });
+
+                Assert.True(!modules.Any());
+                //});
             }
         }
 
@@ -120,12 +123,13 @@ namespace Nugety.Tests
         {
             using (var catalog = new NugetyCatalog())
             {
-                var exception = Assert.Throws<DirectoryNotFoundException>(() =>
-                {
+                //var exception = Assert.Throws<DirectoryNotFoundException>(() =>
+                //{
                     var modules = catalog
                         .FromDirectory()
                         .GetModules<IModuleInitializer>("Module1Initializer", "InvalidModule");
-                });
+                Assert.True(modules.Count() == 1);
+                //});
             }
         }
 

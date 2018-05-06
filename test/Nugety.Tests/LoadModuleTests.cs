@@ -15,12 +15,13 @@ namespace Nugety.Tests
         {
             using (var catalog = new NugetyCatalog())
             {
-                var exception = Assert.Throws<DirectoryNotFoundException>(() =>
-                {
+                //var exception = Assert.Throws<DirectoryNotFoundException>(() =>
+                //{
                     var modules = catalog
                         .FromDirectory()
                         .GetModules<InvalidInterface>("Module1");
-                });
+                Assert.True(!modules.Any());
+                //});
             }
         }
 
